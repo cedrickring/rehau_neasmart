@@ -52,11 +52,13 @@ class RehauAuthClient:
 
     async def start_authorization_flow(self):
         """Start OAuth authorization flow."""
+        from urllib.parse import urlparse, parse_qs
+
         _LOGGER.debug("Starting OAuth authorization flow")
         params = {
-            "response_type": "code",
             "client_id": self.CLIENT_ID,
             "redirect_uri": self.REDIRECT_URI,
+            "response_type": "code",
             "scope": "email roles profile offline_access groups",
             "code_challenge": self.code_challenge,
             "code_challenge_method": "S256",
@@ -64,12 +66,19 @@ class RehauAuthClient:
         }
 
         async with self.session.get(
-            f"{self.BASE_URL}/authorize", params=params, headers=self.IOS_HEADERS, allow_redirects=False
+            f"{self.BASE_URL}/authz-srv/authz", params=params, headers=self.IOS_HEADERS, allow_redirects=False
         ) as response:
             _LOGGER.debug(f"Authorization response status: {response.status}")
             if response.status == 302:
                 location = response.headers.get("Location", "")
-                if "request_id=" in location:
+                # Try parsing with requestId (capital I)
+                if "requestId=" in location:
+                    parsed = urlparse(location)
+                    params_parsed = parse_qs(parsed.query)
+                    self.request_id = params_parsed.get('requestId', [None])[0]
+                    _LOGGER.debug(f"Got request_id: {self.request_id}")
+                # Fallback to request_id (lowercase)
+                elif "request_id=" in location:
                     params_str = location.split("?")[1] if "?" in location else ""
                     for param in params_str.split("&"):
                         if param.startswith("request_id="):
