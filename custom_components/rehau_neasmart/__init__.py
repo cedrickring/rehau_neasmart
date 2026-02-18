@@ -19,9 +19,11 @@ PLATFORMS = [Platform.CLIMATE]
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Rehau Nea Smart from a config entry."""
+    _LOGGER.info("Setting up Rehau Nea Smart integration")
     email = entry.data[CONF_EMAIL]
     password = entry.data[CONF_PASSWORD]
     install_id = entry.data.get(CONF_INSTALL_ID)
+    _LOGGER.debug(f"Configuration: email={email}, install_id={install_id}")
 
     # Create aiohttp session
     session = aiohttp.ClientSession()
@@ -31,12 +33,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     try:
         # Perform login
-        _LOGGER.info("Logging in to Rehau Nea Smart")
+        _LOGGER.info("Starting authentication flow")
         await auth_client.start_authorization_flow()
         success = await auth_client.login(email, password)
 
         if not success:
-            _LOGGER.error("Login failed")
+            _LOGGER.error("Authentication failed")
             await session.close()
             raise ConfigEntryNotReady("Login failed")
 
@@ -67,13 +69,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         # Extract device ID
         installs = install_data.get("user", {}).get("installs", [])
         if not installs:
-            _LOGGER.error("No installations found")
+            _LOGGER.error("No installations found in API response")
             await session.close()
             raise ConfigEntryNotReady("No installations found")
 
         device_id = installs[0].get("unique")
+        _LOGGER.debug(f"Using device_id: {device_id}")
 
         # Create coordinator
+        _LOGGER.debug("Creating data coordinator")
         coordinator = RehauDataCoordinator(
             hass,
             auth_client,
@@ -84,14 +88,16 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         coordinator.install_data = install_data
 
         # Connect to MQTT
-        _LOGGER.info("Connecting to MQTT")
+        _LOGGER.info("Connecting to MQTT broker")
         await coordinator.connect_mqtt()
 
         hass.data.setdefault(DOMAIN, {})[entry.entry_id] = coordinator
 
         # Forward entry setup to platforms
+        _LOGGER.info("Setting up climate platform")
         await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
+        _LOGGER.info("Rehau Nea Smart integration setup complete")
         return True
 
     except Exception as err:
@@ -102,11 +108,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Unload a config entry."""
+    _LOGGER.info("Unloading Rehau Nea Smart integration")
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
     if unload_ok:
         coordinator: RehauDataCoordinator = hass.data[DOMAIN].pop(entry.entry_id)
         await coordinator.disconnect()
         await coordinator.auth_client.session.close()
+        _LOGGER.info("Rehau Nea Smart integration unloaded successfully")
 
     return unload_ok

@@ -131,6 +131,7 @@ class RehauDataCoordinator(DataUpdateCoordinator):
 
     async def connect_mqtt(self):
         """Connect to MQTT over WebSocket."""
+        _LOGGER.debug("Connecting to MQTT broker")
         mqtt_url = "wss://mqtt.nea2aws.aws.rehau.cloud/mqtt"
         ssl_context = ssl.create_default_context()
 
@@ -151,8 +152,10 @@ class RehauDataCoordinator(DataUpdateCoordinator):
                 "Sec-Fetch-Dest": "websocket",
             },
         )
+        _LOGGER.debug("WebSocket connection established")
 
         # Send MQTT CONNECT
+        _LOGGER.debug(f"Sending MQTT CONNECT with client_id: app-{self.auth_client.sid}")
         connect_packet = self._create_mqtt_connect()
         await self.websocket.send(connect_packet)
 
@@ -162,22 +165,25 @@ class RehauDataCoordinator(DataUpdateCoordinator):
             if len(response) >= 4 and response[0] == 0x20:
                 return_code = response[3]
                 if return_code == 0x00:
-                    _LOGGER.info("MQTT connection established")
+                    _LOGGER.info("MQTT connection established successfully")
                 else:
-                    raise UpdateFailed(f"MQTT connection refused: {return_code}")
+                    raise UpdateFailed(f"MQTT connection refused with code: {return_code}")
             else:
                 raise UpdateFailed("Unexpected MQTT response")
         except asyncio.TimeoutError:
             raise UpdateFailed("MQTT connection timeout")
 
         # Subscribe to topics
+        _LOGGER.debug(f"Subscribing to topic: client/{self.email}")
         await self.websocket.send(self._create_subscribe(f"client/{self.email}"))
         await self.websocket.recv()  # SUBACK
 
+        _LOGGER.debug(f"Subscribing to topic: client/{self.device_id}/realtime")
         await self.websocket.send(self._create_subscribe(f"client/{self.device_id}/realtime"))
         await self.websocket.recv()  # SUBACK
 
         # Start message listener
+        _LOGGER.info("Starting MQTT message listener")
         self._running = True
         asyncio.create_task(self._listen_messages())
 
@@ -226,6 +232,8 @@ class RehauDataCoordinator(DataUpdateCoordinator):
 
         api_value = self.celsius_to_api_value(temperature_celsius)
 
+        _LOGGER.debug(f"Setting temperature for zone {zone_number} to {temperature_celsius}°C (API value: {api_value})")
+
         message = {
             "11": "REQ_TH",
             "12": {"2": api_value, "15": 0},
@@ -236,17 +244,20 @@ class RehauDataCoordinator(DataUpdateCoordinator):
         payload = json.dumps(message, separators=(",", ":"))
         topic = f"client/{self.device_id}"
 
+        _LOGGER.debug(f"Publishing MQTT message: {payload}")
         publish_packet = self._create_publish(topic, payload)
         await self.websocket.send(publish_packet)
 
-        _LOGGER.info(f"Set temperature for zone {zone_number} to {temperature_celsius}°C")
+        _LOGGER.info(f"Temperature set command sent for zone {zone_number}: {temperature_celsius}°C")
 
     async def disconnect(self):
         """Disconnect from MQTT."""
+        _LOGGER.debug("Disconnecting from MQTT")
         self._running = False
         if self.websocket:
             await self.websocket.close()
             self.websocket = None
+            _LOGGER.info("MQTT connection closed")
 
     async def _async_update_data(self):
         """Fetch data from API (fallback if MQTT is down)."""

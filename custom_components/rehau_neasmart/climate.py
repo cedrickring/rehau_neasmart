@@ -25,6 +25,7 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     """Set up Rehau climate entities."""
+    _LOGGER.debug("Setting up Rehau climate entities")
     coordinator: RehauDataCoordinator = hass.data[DOMAIN][entry.entry_id]
 
     # Extract zones from installation data
@@ -32,7 +33,7 @@ async def async_setup_entry(
     installs = install_data.get("user", {}).get("installs", [])
 
     if not installs:
-        _LOGGER.error("No installations found")
+        _LOGGER.error("No installations found in climate platform setup")
         return
 
     install = installs[0]
@@ -42,6 +43,7 @@ async def async_setup_entry(
 
     if groups and groups[0].get("zones"):
         zones = groups[0]["zones"]
+        _LOGGER.debug(f"Found {len(zones)} zones to create climate entities")
         for zone in zones:
             zone_name = zone.get("name", "Unknown")
             zone_number = zone.get("number")
@@ -49,8 +51,10 @@ async def async_setup_entry(
 
             if channels:
                 channel = channels[0]
+                _LOGGER.debug(f"Creating climate entity for zone {zone_number}: {zone_name}")
                 entities.append(RehauClimate(coordinator, zone_name, zone_number, channel))
 
+    _LOGGER.info(f"Adding {len(entities)} climate entities")
     async_add_entities(entities)
 
 
@@ -122,9 +126,10 @@ class RehauClimate(CoordinatorEntity, ClimateEntity):
         """Set new target temperature."""
         temperature = kwargs.get(ATTR_TEMPERATURE)
         if temperature is None:
+            _LOGGER.warning("No temperature provided in set_temperature call")
             return
 
-        _LOGGER.info(f"Setting temperature for {self._zone_name} to {temperature}°C")
+        _LOGGER.info(f"Setting temperature for zone {self._zone_number} ({self._zone_name}) to {temperature}°C")
 
         try:
             await self.coordinator.set_temperature(self._zone_number, temperature)
@@ -134,9 +139,10 @@ class RehauClimate(CoordinatorEntity, ClimateEntity):
             self._channel_data["setpoint_used"] = api_value
 
             self.async_write_ha_state()
+            _LOGGER.debug(f"Temperature set successfully for {self._zone_name}")
 
         except Exception as err:
-            _LOGGER.error(f"Failed to set temperature: {err}")
+            _LOGGER.error(f"Failed to set temperature for {self._zone_name}: {err}", exc_info=True)
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         """Set HVAC mode."""

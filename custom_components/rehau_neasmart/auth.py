@@ -52,6 +52,7 @@ class RehauAuthClient:
 
     async def start_authorization_flow(self):
         """Start OAuth authorization flow."""
+        _LOGGER.debug("Starting OAuth authorization flow")
         params = {
             "response_type": "code",
             "client_id": self.CLIENT_ID,
@@ -65,6 +66,7 @@ class RehauAuthClient:
         async with self.session.get(
             f"{self.BASE_URL}/authorize", params=params, headers=self.IOS_HEADERS, allow_redirects=False
         ) as response:
+            _LOGGER.debug(f"Authorization response status: {response.status}")
             if response.status == 302:
                 location = response.headers.get("Location", "")
                 if "request_id=" in location:
@@ -72,10 +74,12 @@ class RehauAuthClient:
                     for param in params_str.split("&"):
                         if param.startswith("request_id="):
                             self.request_id = param.split("=")[1]
+                            _LOGGER.debug(f"Got request_id: {self.request_id}")
                             break
 
     async def login(self, username: str, password: str) -> bool:
         """Login with username and password."""
+        _LOGGER.debug(f"Attempting login for user: {username}")
         if not self.request_id:
             await self.start_authorization_flow()
 
@@ -84,6 +88,7 @@ class RehauAuthClient:
         async with self.session.post(
             f"{self.BASE_URL}/login-srv/login", json=payload, headers=self.IOS_HEADERS, allow_redirects=False
         ) as response:
+            _LOGGER.debug(f"Login response status: {response.status}")
             if response.status == 302:
                 location = response.headers.get("Location", "")
                 params_str = location.split("?")[1] if "?" in location else ""
@@ -95,7 +100,9 @@ class RehauAuthClient:
 
                 self.sub = params.get("sub")
                 self.request_id = params.get("request_id")
+                _LOGGER.debug("Login successful")
                 return True
+            _LOGGER.warning(f"Login failed with status: {response.status}")
             return False
 
     async def initiate_mfa_email(self) -> bool:
@@ -103,6 +110,7 @@ class RehauAuthClient:
         if not self.sub or not self.request_id:
             raise ValueError("Must call login() first")
 
+        _LOGGER.debug("Initiating MFA email verification")
         payload = {
             "sub": self.sub,
             "medium_id": self.medium_id or "101e2b44-60d1-45e3-b649-f5ef7d75f5a0",
@@ -113,13 +121,18 @@ class RehauAuthClient:
         async with self.session.post(
             f"{self.BASE_URL}/verification-srv/v2/authenticate/initiate/email", json=payload, headers=self.IOS_HEADERS
         ) as response:
+            _LOGGER.debug(f"MFA initiation response status: {response.status}")
             if response.status == 200:
                 data = await response.json()
-                return data.get("success", False)
+                success = data.get("success", False)
+                _LOGGER.debug(f"MFA email initiated: {success}")
+                return success
+            _LOGGER.warning(f"MFA initiation failed with status: {response.status}")
             return False
 
     async def verify_mfa_code(self, code: str) -> bool:
         """Verify MFA code."""
+        _LOGGER.debug("Verifying MFA code")
         payload = {
             "sub": self.sub,
             "medium_id": self.medium_id or "101e2b44-60d1-45e3-b649-f5ef7d75f5a0",
@@ -131,25 +144,33 @@ class RehauAuthClient:
         async with self.session.post(
             f"{self.BASE_URL}/verification-srv/v2/authenticate/authenticate/email", json=payload, headers=self.IOS_HEADERS
         ) as response:
+            _LOGGER.debug(f"MFA verification response status: {response.status}")
             if response.status == 200:
                 data = await response.json()
-                return data.get("success", False)
+                success = data.get("success", False)
+                _LOGGER.debug(f"MFA code verified: {success}")
+                return success
+            _LOGGER.warning(f"MFA verification failed with status: {response.status}")
             return False
 
     async def complete_mfa_login(self) -> bool:
         """Complete MFA login and get authorization code."""
+        _LOGGER.debug("Completing MFA login to get authorization code")
         payload = {"request_id": self.request_id}
 
         async with self.session.post(
             f"{self.BASE_URL}/login-srv/precheck/continue", json=payload, headers=self.IOS_HEADERS, allow_redirects=False
         ) as response:
+            _LOGGER.debug(f"MFA completion response status: {response.status}")
             if response.status == 302:
                 location = response.headers.get("Location", "")
                 if "code=" in location:
                     for param in location.split("?")[1].split("&"):
                         if param.startswith("code="):
                             self.code = param.split("=")[1]
+                            _LOGGER.debug("Authorization code obtained")
                             return True
+            _LOGGER.warning(f"Failed to complete MFA login with status: {response.status}")
             return False
 
     async def get_tokens(self) -> dict[str, Any]:
@@ -157,6 +178,7 @@ class RehauAuthClient:
         if not self.code:
             raise ValueError("Must complete login flow first")
 
+        _LOGGER.debug("Exchanging authorization code for tokens")
         payload = {
             "grant_type": "authorization_code",
             "code": self.code,
@@ -175,6 +197,7 @@ class RehauAuthClient:
                 self.sid = data.get("sid")
                 expires_in = data.get("expires_in", 86400)
                 self.expires_at = datetime.now() + timedelta(seconds=expires_in)
+                _LOGGER.info(f"Tokens obtained successfully, expires in {expires_in}s")
                 return data
             raise ValueError(f"Token exchange failed: {response.status}")
 
@@ -183,6 +206,7 @@ class RehauAuthClient:
         if not self.refresh_token:
             raise ValueError("No refresh token available")
 
+        _LOGGER.debug("Refreshing access token")
         payload = {"grant_type": "refresh_token", "refresh_token": self.refresh_token, "client_id": self.CLIENT_ID}
 
         async with self.session.post(
@@ -195,6 +219,7 @@ class RehauAuthClient:
                 self.sid = data.get("sid")
                 expires_in = data.get("expires_in", 86400)
                 self.expires_at = datetime.now() + timedelta(seconds=expires_in)
+                _LOGGER.info(f"Token refreshed successfully, expires in {expires_in}s")
                 return data
             raise ValueError(f"Token refresh failed: {response.status}")
 
@@ -205,7 +230,10 @@ class RehauAuthClient:
 
         # Refresh if token expires in less than 5 minutes
         if self.expires_at and datetime.now() >= self.expires_at - timedelta(minutes=5):
+            _LOGGER.debug("Token expires soon, triggering automatic refresh")
             await self.refresh_access_token()
+        else:
+            _LOGGER.debug("Token still valid, no refresh needed")
 
         return self.access_token
 
@@ -230,6 +258,7 @@ class RehauAuthClient:
         """Get installation data from API."""
         token = await self.get_valid_token()
 
+        _LOGGER.debug(f"Fetching installation data for install_id: {install_id}")
         params = {"demand": install_id, "installsList": install_id}
 
         async with self.session.get(
@@ -237,9 +266,12 @@ class RehauAuthClient:
             headers={**self.IOS_HEADERS, "Authorization": token},
             params=params,
         ) as response:
+            _LOGGER.debug(f"Installation data response status: {response.status}")
             if response.status in [200, 201]:
                 data = await response.json()
                 if data.get("success"):
+                    zones_count = len(data.get("data", {}).get("zones", []))
+                    _LOGGER.info(f"Installation data retrieved successfully, found {zones_count} zones")
                     return data.get("data", {})
                 raise ValueError(f"API returned success=false: {data}")
             raise ValueError(f"Failed to get install data: {response.status}")
