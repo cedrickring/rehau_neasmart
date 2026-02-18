@@ -181,6 +181,8 @@ class RehauAuthClient:
             raise ValueError("Must call initiate_mfa_email() first")
 
         _LOGGER.debug("Verifying MFA code")
+        _LOGGER.debug(f"Using exchange_id: {self.exchange_id}, status_id: {self.status_id}")
+        
         payload = {
             "pass_code": code,
             "exchange_id": self.exchange_id,
@@ -196,12 +198,16 @@ class RehauAuthClient:
                 success = data.get("success", False)
                 if success:
                     _LOGGER.info("MFA code verified successfully")
+                    # Note: status_id should already be set from initiate_mfa_email
+                    # But let's log it to be sure
+                    _LOGGER.debug(f"MFA verified, status_id is: {self.status_id}")
                     return True
                 else:
                     error_msg = data.get("error", {}).get("error", "Unknown error")
                     _LOGGER.warning(f"MFA verification failed: {error_msg}")
                     return False
-            _LOGGER.warning(f"MFA verification failed with status: {response.status}")
+            response_text = await response.text()
+            _LOGGER.warning(f"MFA verification failed with status: {response.status}, body: {response_text}")
             return False
 
     async def complete_mfa_login(self) -> bool:
@@ -212,12 +218,16 @@ class RehauAuthClient:
             raise ValueError("Must complete MFA verification first")
 
         _LOGGER.debug("Completing MFA login to get authorization code")
+        _LOGGER.debug(f"Using track_id: {self.track_id}, request_id: {self.request_id}, status_id: {self.status_id}")
 
         # Use form data with all required fields
+        # Try using request_id first if available, otherwise fall back to track_id
+        request_id_to_use = self.request_id if self.request_id else self.track_id
+        
         data = {
             "status_id": self.status_id,
             "track_id": self.track_id,
-            "requestId": self.track_id,
+            "requestId": request_id_to_use,
             "sub": self.sub,
             "verificationType": "EMAIL"
         }
@@ -226,6 +236,14 @@ class RehauAuthClient:
             f"{self.BASE_URL}/login-srv/precheck/continue/{self.track_id}", data=data, allow_redirects=False
         ) as response:
             _LOGGER.debug(f"MFA completion response status: {response.status}")
+            
+            # Log the response body for debugging on failure
+            if response.status != 302:
+                response_text = await response.text()
+                _LOGGER.warning(f"MFA completion failed. Status: {response.status}, Body: {response_text}")
+                _LOGGER.debug(f"Request data was: {data}")
+                return False
+                
             if response.status == 302:
                 location = response.headers.get("Location", "")
                 parsed = urlparse(location)
@@ -238,8 +256,6 @@ class RehauAuthClient:
                 else:
                     _LOGGER.warning("No authorization code in redirect response")
                     return False
-            _LOGGER.warning(f"Failed to complete MFA login with status: {response.status}")
-            return False
 
     async def get_tokens(self) -> dict[str, Any]:
         """Exchange authorization code for tokens."""
