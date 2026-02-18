@@ -37,6 +37,8 @@ class RehauAuthClient:
         self.sub = None
         self.request_id = None
         self.medium_id = None
+        self.exchange_id = None
+        self.status_id = None
         self.code = None
         self.access_token = None
         self.refresh_token = None
@@ -125,6 +127,21 @@ class RehauAuthClient:
             raise ValueError("Must call login() first")
 
         _LOGGER.debug("Initiating MFA email verification")
+
+        # Optionally get configured MFA methods first
+        try:
+            async with self.session.get(
+                f"{self.BASE_URL}/verification-srv/v2/setup/public/configured/list?sub={self.sub}"
+            ) as list_response:
+                if list_response.status == 200:
+                    configured = await list_response.json()
+                    email_methods = [m for m in configured.get('data', []) if m.get('verification_type') == 'EMAIL']
+                    if email_methods:
+                        self.medium_id = email_methods[0].get('id')
+                        _LOGGER.debug(f"Found configured email MFA method: {self.medium_id}")
+        except Exception as e:
+            _LOGGER.debug(f"Could not get configured MFA methods: {e}, using default")
+
         payload = {
             "sub": self.sub,
             "medium_id": self.medium_id or "101e2b44-60d1-45e3-b649-f5ef7d75f5a0",
@@ -133,37 +150,50 @@ class RehauAuthClient:
         }
 
         async with self.session.post(
-            f"{self.BASE_URL}/verification-srv/v2/authenticate/initiate/email", json=payload, headers=self.IOS_HEADERS
+            f"{self.BASE_URL}/verification-srv/v2/authenticate/initiate/email", json=payload
         ) as response:
             _LOGGER.debug(f"MFA initiation response status: {response.status}")
             if response.status == 200:
                 data = await response.json()
-                success = data.get("success", False)
-                _LOGGER.debug(f"MFA email initiated: {success}")
-                return success
+                # Extract exchange_id and status_id from response
+                response_data = data.get("data", {})
+                exchange_id_data = response_data.get("exchange_id", {})
+                self.exchange_id = exchange_id_data.get("exchange_id")
+                self.status_id = response_data.get("status_id")
+                masked_email = response_data.get("medium_text", "your email")
+
+                _LOGGER.info(f"MFA code sent to: {masked_email}")
+                _LOGGER.debug(f"Exchange ID: {self.exchange_id}")
+                return True
             _LOGGER.warning(f"MFA initiation failed with status: {response.status}")
             return False
 
     async def verify_mfa_code(self, code: str) -> bool:
         """Verify MFA code."""
+        if not self.exchange_id or not self.sub:
+            raise ValueError("Must call initiate_mfa_email() first")
+
         _LOGGER.debug("Verifying MFA code")
         payload = {
-            "sub": self.sub,
-            "medium_id": self.medium_id or "101e2b44-60d1-45e3-b649-f5ef7d75f5a0",
-            "request_id": self.request_id,
-            "usage_type": "MULTIFACTOR_AUTHENTICATION",
-            "code": code,
+            "pass_code": code,
+            "exchange_id": self.exchange_id,
+            "sub": self.sub
         }
 
         async with self.session.post(
-            f"{self.BASE_URL}/verification-srv/v2/authenticate/authenticate/email", json=payload, headers=self.IOS_HEADERS
+            f"{self.BASE_URL}/verification-srv/v2/authenticate/authenticate/email", json=payload
         ) as response:
             _LOGGER.debug(f"MFA verification response status: {response.status}")
             if response.status == 200:
                 data = await response.json()
                 success = data.get("success", False)
-                _LOGGER.debug(f"MFA code verified: {success}")
-                return success
+                if success:
+                    _LOGGER.info("MFA code verified successfully")
+                    return True
+                else:
+                    error_msg = data.get("error", {}).get("error", "Unknown error")
+                    _LOGGER.warning(f"MFA verification failed: {error_msg}")
+                    return False
             _LOGGER.warning(f"MFA verification failed with status: {response.status}")
             return False
 
