@@ -88,28 +88,33 @@ class RehauAuthClient:
 
     async def login(self, username: str, password: str) -> bool:
         """Login with username and password."""
+        from urllib.parse import urlparse, parse_qs
+
         _LOGGER.debug(f"Attempting login for user: {username}")
         if not self.request_id:
             await self.start_authorization_flow()
 
-        payload = {"username": username, "password": password, "request_id": self.request_id}
+        # Use form data, not JSON
+        data = {
+            "username": username,
+            "username_type": "email",
+            "password": password,
+            "requestId": self.request_id,
+            "rememberMe": "true"
+        }
 
         async with self.session.post(
-            f"{self.BASE_URL}/login-srv/login", json=payload, headers=self.IOS_HEADERS, allow_redirects=False
+            f"{self.BASE_URL}/login-srv/login", data=data, allow_redirects=False
         ) as response:
             _LOGGER.debug(f"Login response status: {response.status}")
             if response.status == 302:
                 location = response.headers.get("Location", "")
-                params_str = location.split("?")[1] if "?" in location else ""
-                params = {}
-                for param in params_str.split("&"):
-                    if "=" in param:
-                        key, value = param.split("=", 1)
-                        params[key] = value.replace("&amp;", "&")
+                parsed = urlparse(location)
+                params = parse_qs(parsed.query)
 
-                self.sub = params.get("sub")
-                self.request_id = params.get("request_id")
-                _LOGGER.debug("Login successful")
+                self.sub = params.get("sub", [None])[0]
+                self.request_id = params.get("requestId", [None])[0] or params.get("request_id", [None])[0]
+                _LOGGER.debug(f"Login successful, sub: {self.sub}, request_id: {self.request_id}")
                 return True
             _LOGGER.warning(f"Login failed with status: {response.status}")
             return False
