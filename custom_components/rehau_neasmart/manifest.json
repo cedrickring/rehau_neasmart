@@ -1,0 +1,11 @@
+{
+  "domain": "rehau_neasmart",
+  "name": "Rehau Nea Smart",
+  "codeowners": ["@cedrickring"],
+  "config_flow": true,
+  "documentation": "https://github.com/cedrickring/rehau-neasmart",
+  "iot_class": "cloud_push",
+  "issue_tracker": "https://github.com/cedrickring/rehau-neasmart/issues",
+  "requirements": ["websockets==12.0"],
+  "version": "0.1.0"
+}

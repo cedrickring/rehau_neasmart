@@ -1,0 +1,31 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Rehau Nea Smart Setup",
+        "description": "Enter your Rehau Nea Smart credentials",
+        "data": {
+          "email": "Email",
+          "password": "Password",
+          "install_id": "Installation ID (optional)"
+        }
+      },
+      "mfa": {
+        "title": "Multi-Factor Authentication",
+        "description": "Enter the 6-digit code sent to {email}",
+        "data": {
+          "mfa_code": "MFA Code"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Failed to connect to Rehau servers",
+      "invalid_auth": "Invalid email or password",
+      "invalid_mfa": "Invalid MFA code",
+      "unknown": "Unexpected error occurred"
+    },
+    "abort": {
+      "already_configured": "This account is already configured"
+    }
+  }
+}
