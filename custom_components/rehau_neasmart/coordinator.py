@@ -139,6 +139,8 @@ class RehauDataCoordinator(DataUpdateCoordinator):
             mqtt_url,
             subprotocols=["mqtt"],
             ssl=ssl_context,
+            ping_interval=None,  # Disable websocket ping, use MQTT keepalive
+            ping_timeout=None,
             additional_headers={
                 "Origin": "app://ios.neasmart.de",
                 "User-Agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 18_7 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148",
@@ -186,12 +188,29 @@ class RehauDataCoordinator(DataUpdateCoordinator):
         _LOGGER.info("Starting MQTT message listener")
         self._running = True
         asyncio.create_task(self._listen_messages())
+        
+        # Start keepalive task (send PINGREQ every 30 seconds)
+        asyncio.create_task(self._keepalive())
+
+    async def _keepalive(self):
+        """Send MQTT PINGREQ packets to keep connection alive."""
+        while self._running and self.websocket:
+            try:
+                await asyncio.sleep(30)  # Keep alive interval (matches 60s timeout with margin)
+                if self.websocket and self._running:
+                    # MQTT PINGREQ packet
+                    pingreq = b'\xc0\x00'
+                    await self.websocket.send(pingreq)
+                    _LOGGER.debug("Sent MQTT PINGREQ")
+            except Exception as e:
+                _LOGGER.error(f"Error sending keepalive: {e}")
+                break
 
     async def _listen_messages(self):
         """Listen for incoming MQTT messages."""
         while self._running and self.websocket:
             try:
-                response = await asyncio.wait_for(self.websocket.recv(), timeout=30.0)
+                response = await asyncio.wait_for(self.websocket.recv(), timeout=60.0)
 
                 # Parse MQTT packet
                 packet_type = response[0] >> 4
@@ -211,9 +230,15 @@ class RehauDataCoordinator(DataUpdateCoordinator):
 
                     except json.JSONDecodeError:
                         _LOGGER.warning(f"Failed to parse message payload: {payload[:100]}")
+                
+                elif packet_type == 13:  # PINGRESP
+                    _LOGGER.debug("Received MQTT PINGRESP")
 
             except asyncio.TimeoutError:
-                continue
+                _LOGGER.warning("MQTT receive timeout, connection might be dead")
+                # Try to reconnect
+                self._running = False
+                break
             except Exception as e:
                 _LOGGER.error(f"Error listening to MQTT: {e}")
                 self._running = False
