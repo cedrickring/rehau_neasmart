@@ -1,5 +1,6 @@
 """Config flow for Rehau Nea Smart integration."""
 import logging
+from datetime import datetime, timedelta
 from typing import Any
 
 import aiohttp
@@ -83,19 +84,31 @@ class RehauConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     errors["base"] = "invalid_mfa"
                 else:
                     # Complete login and get tokens
-                    await self.auth_client.complete_mfa_login()
-                    await self.auth_client.get_tokens()
+                    complete_success = await self.auth_client.complete_mfa_login()
+                    if not complete_success:
+                        _LOGGER.error("Failed to complete MFA login")
+                        errors["base"] = "invalid_mfa"
+                    else:
+                        tokens = await self.auth_client.get_tokens()
 
-                    # Create entry
-                    await self.session.close()
+                        # Save tokens to config entry data
+                        self.data["access_token"] = tokens.get("access_token")
+                        self.data["refresh_token"] = tokens.get("refresh_token")
+                        self.data["sid"] = tokens.get("sid")
+                        self.data["expires_at"] = (
+                                datetime.now() + timedelta(seconds=tokens.get("expires_in", 86400))
+                        ).isoformat()
 
-                    await self.async_set_unique_id(self.data[CONF_EMAIL])
-                    self._abort_if_unique_id_configured()
+                        # Create entry
+                        await self.session.close()
 
-                    return self.async_create_entry(
-                        title=f"Rehau ({self.data[CONF_EMAIL]})",
-                        data=self.data,
-                    )
+                        await self.async_set_unique_id(self.data[CONF_EMAIL])
+                        self._abort_if_unique_id_configured()
+
+                        return self.async_create_entry(
+                            title=f"Rehau ({self.data[CONF_EMAIL]})",
+                            data=self.data,
+                        )
 
             except Exception as e:
                 _LOGGER.error(f"Error during MFA: {e}")

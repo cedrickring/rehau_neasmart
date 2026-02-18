@@ -1,5 +1,6 @@
 """The Rehau Nea Smart integration."""
 import logging
+from datetime import datetime
 
 import aiohttp
 
@@ -21,7 +22,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Rehau Nea Smart from a config entry."""
     _LOGGER.info("Setting up Rehau Nea Smart integration")
     email = entry.data[CONF_EMAIL]
-    password = entry.data[CONF_PASSWORD]
     install_id = entry.data.get(CONF_INSTALL_ID)
     _LOGGER.debug(f"Configuration: email={email}, install_id={install_id}")
 
@@ -32,35 +32,44 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     auth_client = RehauAuthClient(session)
 
     try:
-        # Perform login
-        _LOGGER.info("Starting authentication flow")
-        await auth_client.start_authorization_flow()
-        success = await auth_client.login(email, password)
-
-        if not success:
-            _LOGGER.error("Authentication failed")
+        # Check if we have saved tokens from config flow
+        if "access_token" in entry.data and "refresh_token" in entry.data:
+            _LOGGER.info("Using saved tokens from config entry")
+            
+            # Restore token state
+            auth_client.access_token = entry.data.get("access_token")
+            auth_client.refresh_token = entry.data.get("refresh_token")
+            auth_client.sid = entry.data.get("sid")
+            
+            # Parse expires_at
+            expires_at_str = entry.data.get("expires_at")
+            if expires_at_str:
+                auth_client.expires_at = datetime.fromisoformat(expires_at_str)
+            
+            # Verify token is still valid (and refresh if needed)
+            try:
+                await auth_client.introspect_token()
+            except Exception as e:
+                _LOGGER.warning(f"Saved token invalid, attempting refresh: {e}")
+                try:
+                    await auth_client.refresh_access_token()
+                    # Update config entry with new tokens
+                    new_data = dict(entry.data)
+                    new_data["access_token"] = auth_client.access_token
+                    new_data["refresh_token"] = auth_client.refresh_token
+                    new_data["sid"] = auth_client.sid
+                    new_data["expires_at"] = auth_client.expires_at.isoformat() if auth_client.expires_at else None
+                    hass.config_entries.async_update_entry(entry, data=new_data)
+                    _LOGGER.info("Token refreshed successfully")
+                except Exception as refresh_error:
+                    _LOGGER.error(f"Token refresh failed: {refresh_error}")
+                    await session.close()
+                    raise ConfigEntryNotReady("Token refresh failed - please reconfigure the integration")
+        else:
+            # Legacy: No saved tokens, need to re-authenticate (will fail without MFA)
+            _LOGGER.warning("No saved tokens found - integration needs to be reconfigured with MFA support")
             await session.close()
-            raise ConfigEntryNotReady("Login failed")
-
-        # Note: For production, you'd need to handle MFA properly
-        # This assumes MFA is completed or not required
-        # You may need to add MFA handling to config flow
-
-        # For now, we'll try to continue without MFA if possible
-        # In a real deployment, you'd need proper MFA handling
-
-        _LOGGER.info("Getting tokens")
-        # This might fail if MFA is required - handle appropriately
-        try:
-            await auth_client.complete_mfa_login()
-            await auth_client.get_tokens()
-        except Exception as e:
-            _LOGGER.error(f"Token exchange failed, MFA might be required: {e}")
-            await session.close()
-            raise ConfigEntryNotReady("MFA required - not yet supported in config flow")
-
-        # Introspect token to ensure it's valid
-        await auth_client.introspect_token()
+            raise ConfigEntryNotReady("Please remove and re-add the integration to complete MFA authentication")
 
         # Get installation data
         _LOGGER.info("Fetching installation data")
