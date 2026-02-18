@@ -7,7 +7,7 @@ from websockets import connect
 import ssl
 
 # Import from main.py
-from main import RehauAuthClient
+from auth_client import RehauAuthClient
 
 
 class MQTTWebSocketClient:
@@ -324,10 +324,11 @@ async def main():
         access_token = auth_client.get_valid_token()
         token_data = auth_client.load_tokens()
         email = input("Enter your email: ").strip()
+        install_id = input("Enter your installation ID: ").strip()
 
         # Get installation data
         print("\nFetching installation data...")
-        install_data = auth_client.get_install_data(email)
+        install_data = auth_client.get_install_data(email, install_id)
 
         # Extract installation info
         user = install_data.get("user", {})
