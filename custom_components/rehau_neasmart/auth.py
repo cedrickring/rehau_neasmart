@@ -351,11 +351,27 @@ class RehauAuthClient:
             params=params,
         ) as response:
             _LOGGER.debug(f"Installation data response status: {response.status}")
+            _LOGGER.debug(f"Response content-type: {response.content_type}")
+            
             if response.status in [200, 201]:
-                data = await response.json()
-                if data.get("success"):
-                    zones_count = len(data.get("data", {}).get("zones", []))
-                    _LOGGER.info(f"Installation data retrieved successfully, found {zones_count} zones")
-                    return data.get("data", {})
-                raise ValueError(f"API returned success=false: {data}")
+                # Some responses might be text/plain but contain JSON
+                try:
+                    # Try to parse as JSON regardless of content-type
+                    text = await response.text()
+                    _LOGGER.debug(f"Response body (first 200 chars): {text[:200]}")
+                    data = json.loads(text)
+                    
+                    if data.get("success"):
+                        zones_count = len(data.get("data", {}).get("zones", []))
+                        _LOGGER.info(f"Installation data retrieved successfully, found {zones_count} zones")
+                        return data.get("data", {})
+                    raise ValueError(f"API returned success=false: {data}")
+                except json.JSONDecodeError as e:
+                    _LOGGER.error(f"Failed to parse response as JSON: {e}")
+                    _LOGGER.error(f"Response body: {text}")
+                    raise ValueError(f"Invalid JSON response from API: {e}")
+            
+            # Log error response
+            error_text = await response.text()
+            _LOGGER.error(f"Failed to get install data. Status: {response.status}, Body: {error_text}")
             raise ValueError(f"Failed to get install data: {response.status}")
