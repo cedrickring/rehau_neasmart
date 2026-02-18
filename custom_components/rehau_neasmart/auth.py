@@ -36,6 +36,7 @@ class RehauAuthClient:
         self._generate_pkce_pair()
         self.sub = None
         self.request_id = None
+        self.track_id = None
         self.medium_id = None
         self.exchange_id = None
         self.status_id = None
@@ -114,9 +115,15 @@ class RehauAuthClient:
                 parsed = urlparse(location)
                 params = parse_qs(parsed.query)
 
+                self.track_id = params.get("track_id", [None])[0]
                 self.sub = params.get("sub", [None])[0]
-                self.request_id = params.get("requestId", [None])[0] or params.get("request_id", [None])[0]
-                _LOGGER.debug(f"Login successful, sub: {self.sub}, request_id: {self.request_id}")
+                # Keep the original request_id if not in redirect
+                if 'requestId' in params:
+                    self.request_id = params.get("requestId", [None])[0]
+                elif 'request_id' in params:
+                    self.request_id = params.get("request_id", [None])[0]
+
+                _LOGGER.debug(f"Login successful, track_id: {self.track_id}, sub: {self.sub}, request_id: {self.request_id}")
                 return True
             _LOGGER.warning(f"Login failed with status: {response.status}")
             return False
@@ -199,21 +206,38 @@ class RehauAuthClient:
 
     async def complete_mfa_login(self) -> bool:
         """Complete MFA login and get authorization code."""
+        from urllib.parse import urlparse, parse_qs
+
+        if not self.track_id or not self.status_id or not self.sub:
+            raise ValueError("Must complete MFA verification first")
+
         _LOGGER.debug("Completing MFA login to get authorization code")
-        payload = {"request_id": self.request_id}
+
+        # Use form data with all required fields
+        data = {
+            "status_id": self.status_id,
+            "track_id": self.track_id,
+            "requestId": self.track_id,
+            "sub": self.sub,
+            "verificationType": "EMAIL"
+        }
 
         async with self.session.post(
-            f"{self.BASE_URL}/login-srv/precheck/continue", json=payload, headers=self.IOS_HEADERS, allow_redirects=False
+            f"{self.BASE_URL}/login-srv/precheck/continue/{self.track_id}", data=data, allow_redirects=False
         ) as response:
             _LOGGER.debug(f"MFA completion response status: {response.status}")
             if response.status == 302:
                 location = response.headers.get("Location", "")
-                if "code=" in location:
-                    for param in location.split("?")[1].split("&"):
-                        if param.startswith("code="):
-                            self.code = param.split("=")[1]
-                            _LOGGER.debug("Authorization code obtained")
-                            return True
+                parsed = urlparse(location)
+                params = parse_qs(parsed.query)
+
+                self.code = params.get("code", [None])[0]
+                if self.code:
+                    _LOGGER.info("Authorization code obtained")
+                    return True
+                else:
+                    _LOGGER.warning("No authorization code in redirect response")
+                    return False
             _LOGGER.warning(f"Failed to complete MFA login with status: {response.status}")
             return False
 
@@ -232,7 +256,7 @@ class RehauAuthClient:
         }
 
         async with self.session.post(
-            f"{self.BASE_URL}/token-srv/token", json=payload, headers=self.IOS_HEADERS
+            f"{self.BASE_URL}/token-srv/token", json=payload
         ) as response:
             if response.status == 200:
                 data = await response.json()
@@ -254,7 +278,7 @@ class RehauAuthClient:
         payload = {"grant_type": "refresh_token", "refresh_token": self.refresh_token, "client_id": self.CLIENT_ID}
 
         async with self.session.post(
-            f"{self.BASE_URL}/token-srv/token", json=payload, headers=self.IOS_HEADERS
+            f"{self.BASE_URL}/token-srv/token", json=payload
         ) as response:
             if response.status == 200:
                 data = await response.json()
