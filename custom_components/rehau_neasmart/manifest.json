@@ -7,5 +7,5 @@
   "iot_class": "cloud_push",
   "issue_tracker": "https://github.com/cedrickring/rehau-neasmart/issues",
   "requirements": ["websockets"],
-  "version": "0.1.9"
+  "version": "0.2.0"
 }

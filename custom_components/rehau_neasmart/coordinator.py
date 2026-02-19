@@ -4,6 +4,7 @@ import json
 import logging
 import ssl
 import struct
+from functools import partial
 from typing import Any, Callable
 
 from websockets import connect
@@ -44,6 +45,8 @@ class RehauDataCoordinator(DataUpdateCoordinator):
         self.packet_id = 1
         self._update_callbacks: list[Callable] = []
         self._running = False
+        self._reconnect_attempts = 0
+        self._max_reconnect_attempts = 3
 
     def celsius_to_api_value(self, celsius: float) -> int:
         """Convert Celsius to API value (Fahrenheit * 10)."""
@@ -129,11 +132,13 @@ class RehauDataCoordinator(DataUpdateCoordinator):
 
         return b"\x30" + remaining_length_bytes + topic_field + payload_bytes
 
-    async def connect_mqtt(self):
+    async def connect_mqtt(self, retry_with_refresh: bool = True):
         """Connect to MQTT over WebSocket."""
         _LOGGER.debug("Connecting to MQTT broker")
         mqtt_url = "wss://mqtt.nea2aws.aws.rehau.cloud/mqtt"
-        ssl_context = ssl.create_default_context()
+
+        # Fix blocking call: run ssl.create_default_context() in executor
+        ssl_context = await self.hass.async_add_executor_job(ssl.create_default_context)
 
         self.websocket = await connect(
             mqtt_url,
@@ -168,6 +173,20 @@ class RehauDataCoordinator(DataUpdateCoordinator):
                 return_code = response[3]
                 if return_code == 0x00:
                     _LOGGER.info("MQTT connection established successfully")
+                    self._reconnect_attempts = 0  # Reset on success
+                elif return_code in [0x04, 0x05] and retry_with_refresh:
+                    # 0x04 = Bad username or password, 0x05 = Not authorized
+                    _LOGGER.warning(f"MQTT auth failed (code {return_code}), attempting token refresh")
+                    try:
+                        await self.auth_client.refresh_access_token()
+                        await self._update_config_entry_tokens()
+                        _LOGGER.info("Token refreshed, retrying MQTT connection")
+                        # Close current websocket and retry once without refresh
+                        await self.websocket.close()
+                        self.websocket = None
+                        return await self.connect_mqtt(retry_with_refresh=False)
+                    except Exception as e:
+                        raise UpdateFailed(f"Token refresh failed: {e}")
                 else:
                     raise UpdateFailed(f"MQTT connection refused with code: {return_code}")
             else:
@@ -188,9 +207,27 @@ class RehauDataCoordinator(DataUpdateCoordinator):
         _LOGGER.info("Starting MQTT message listener")
         self._running = True
         asyncio.create_task(self._listen_messages())
-        
+
         # Start keepalive task (send PINGREQ every 30 seconds)
         asyncio.create_task(self._keepalive())
+
+    async def _update_config_entry_tokens(self):
+        """Update config entry with refreshed tokens."""
+        from datetime import datetime
+        from homeassistant.config_entries import ConfigEntry
+        from .const import DOMAIN
+
+        # Find the config entry for this coordinator
+        for entry in self.hass.config_entries.async_entries(DOMAIN):
+            if self.hass.data.get(DOMAIN, {}).get(entry.entry_id) == self:
+                new_data = dict(entry.data)
+                new_data["access_token"] = self.auth_client.access_token
+                new_data["refresh_token"] = self.auth_client.refresh_token
+                new_data["sid"] = self.auth_client.sid
+                new_data["expires_at"] = self.auth_client.expires_at.isoformat() if self.auth_client.expires_at else None
+                self.hass.config_entries.async_update_entry(entry, data=new_data)
+                _LOGGER.debug("Updated config entry with new tokens")
+                break
 
     async def _keepalive(self):
         """Send MQTT PINGREQ packets to keep connection alive."""
@@ -204,6 +241,7 @@ class RehauDataCoordinator(DataUpdateCoordinator):
                     _LOGGER.debug("Sent MQTT PINGREQ")
             except Exception as e:
                 _LOGGER.error(f"Error sending keepalive: {e}")
+                await self._attempt_reconnect_with_refresh()
                 break
 
     async def _listen_messages(self):
@@ -236,13 +274,51 @@ class RehauDataCoordinator(DataUpdateCoordinator):
 
             except asyncio.TimeoutError:
                 _LOGGER.warning("MQTT receive timeout, connection might be dead")
-                # Try to reconnect
-                self._running = False
+                await self._attempt_reconnect_with_refresh()
                 break
             except Exception as e:
                 _LOGGER.error(f"Error listening to MQTT: {e}")
-                self._running = False
+                await self._attempt_reconnect_with_refresh()
                 break
+
+    async def _attempt_reconnect_with_refresh(self):
+        """Attempt to reconnect to MQTT, refreshing token if needed."""
+        self._running = False
+
+        if self._reconnect_attempts >= self._max_reconnect_attempts:
+            _LOGGER.error(f"Max reconnection attempts ({self._max_reconnect_attempts}) reached, giving up")
+            return
+
+        self._reconnect_attempts += 1
+        _LOGGER.info(f"Attempting reconnection {self._reconnect_attempts}/{self._max_reconnect_attempts}")
+
+        try:
+            # Close existing connection
+            if self.websocket:
+                await self.websocket.close()
+                self.websocket = None
+
+            # Try refreshing token before reconnecting
+            try:
+                await self.auth_client.refresh_access_token()
+                await self._update_config_entry_tokens()
+                _LOGGER.info("Token refreshed before reconnection attempt")
+            except Exception as e:
+                _LOGGER.warning(f"Token refresh failed during reconnection: {e}")
+
+            # Wait before reconnecting
+            await asyncio.sleep(5 * self._reconnect_attempts)
+
+            # Attempt to reconnect
+            await self.connect_mqtt()
+            _LOGGER.info("Successfully reconnected to MQTT")
+
+        except Exception as e:
+            _LOGGER.error(f"Reconnection attempt failed: {e}")
+            # Schedule another reconnection attempt
+            await asyncio.sleep(10)
+            if self._reconnect_attempts < self._max_reconnect_attempts:
+                await self._attempt_reconnect_with_refresh()
 
     async def _handle_message(self, data: dict):
         """Handle incoming MQTT message."""
@@ -250,10 +326,32 @@ class RehauDataCoordinator(DataUpdateCoordinator):
         # Trigger callbacks to update entities
         self.async_set_updated_data(data)
 
-    async def set_temperature(self, zone_number: int, temperature_celsius: float):
-        """Set zone temperature."""
+    def _is_websocket_connected(self) -> bool:
+        """Check if websocket is connected and open."""
         if not self.websocket:
-            raise UpdateFailed("Not connected to MQTT")
+            return False
+        # Check if websocket is in open state
+        try:
+            from websockets.protocol import State
+            return self.websocket.protocol.state == State.OPEN
+        except Exception:
+            return False
+
+    async def set_temperature(self, zone_number: int, temperature_celsius: float, retry: bool = True):
+        """Set zone temperature."""
+        if not self._is_websocket_connected():
+            if retry:
+                _LOGGER.warning("Websocket disconnected, attempting reconnection before setting temperature")
+                try:
+                    await self._attempt_reconnect_with_refresh()
+                    # Wait a bit for connection to stabilize
+                    await asyncio.sleep(1)
+                    # Retry once without further retries
+                    return await self.set_temperature(zone_number, temperature_celsius, retry=False)
+                except Exception as e:
+                    raise UpdateFailed(f"Failed to reconnect before setting temperature: {e}")
+            else:
+                raise UpdateFailed("Not connected to MQTT and reconnection failed")
 
         api_value = self.celsius_to_api_value(temperature_celsius)
 
@@ -269,11 +367,20 @@ class RehauDataCoordinator(DataUpdateCoordinator):
         payload = json.dumps(message, separators=(",", ":"))
         topic = f"client/{self.device_id}"
 
-        _LOGGER.debug(f"Publishing MQTT message: {payload}")
-        publish_packet = self._create_publish(topic, payload)
-        await self.websocket.send(publish_packet)
-
-        _LOGGER.info(f"Temperature set command sent for zone {zone_number}: {temperature_celsius}°C")
+        try:
+            _LOGGER.debug(f"Publishing MQTT message: {payload}")
+            publish_packet = self._create_publish(topic, payload)
+            await self.websocket.send(publish_packet)
+            _LOGGER.info(f"Temperature set command sent for zone {zone_number}: {temperature_celsius}°C")
+        except Exception as e:
+            # Connection died during send
+            if retry:
+                _LOGGER.warning(f"Failed to send temperature command: {e}, attempting reconnection")
+                await self._attempt_reconnect_with_refresh()
+                await asyncio.sleep(1)
+                return await self.set_temperature(zone_number, temperature_celsius, retry=False)
+            else:
+                raise UpdateFailed(f"Failed to send temperature command: {e}")
 
     async def disconnect(self):
         """Disconnect from MQTT."""
