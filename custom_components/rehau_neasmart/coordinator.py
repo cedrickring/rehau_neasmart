@@ -337,29 +337,23 @@ class RehauDataCoordinator(DataUpdateCoordinator):
         except Exception:
             return False
 
-    async def set_temperature(self, zone_number: int, temperature_celsius: float, retry: bool = True):
-        """Set zone temperature."""
+    async def _send_zone_command(self, zone_number: int, params: dict, retry: bool = True):
+        """Send a command to a zone via MQTT."""
         if not self._is_websocket_connected():
             if retry:
-                _LOGGER.warning("Websocket disconnected, attempting reconnection before setting temperature")
+                _LOGGER.warning("Websocket disconnected, attempting reconnection before sending command")
                 try:
                     await self._attempt_reconnect_with_refresh()
-                    # Wait a bit for connection to stabilize
                     await asyncio.sleep(1)
-                    # Retry once without further retries
-                    return await self.set_temperature(zone_number, temperature_celsius, retry=False)
+                    return await self._send_zone_command(zone_number, params, retry=False)
                 except Exception as e:
-                    raise UpdateFailed(f"Failed to reconnect before setting temperature: {e}")
+                    raise UpdateFailed(f"Failed to reconnect before sending command: {e}")
             else:
                 raise UpdateFailed("Not connected to MQTT and reconnection failed")
 
-        api_value = self.celsius_to_api_value(temperature_celsius)
-
-        _LOGGER.debug(f"Setting temperature for zone {zone_number} to {temperature_celsius}°C (API value: {api_value})")
-
         message = {
             "11": "REQ_TH",
-            "12": {"2": api_value, "15": 0},
+            "12": params,
             "35": "0",
             "36": zone_number,
         }
@@ -371,16 +365,44 @@ class RehauDataCoordinator(DataUpdateCoordinator):
             _LOGGER.debug(f"Publishing MQTT message: {payload}")
             publish_packet = self._create_publish(topic, payload)
             await self.websocket.send(publish_packet)
-            _LOGGER.info(f"Temperature set command sent for zone {zone_number}: {temperature_celsius}°C")
+            _LOGGER.info(f"Command sent for zone {zone_number}: {params}")
         except Exception as e:
-            # Connection died during send
             if retry:
-                _LOGGER.warning(f"Failed to send temperature command: {e}, attempting reconnection")
+                _LOGGER.warning(f"Failed to send command: {e}, attempting reconnection")
                 await self._attempt_reconnect_with_refresh()
                 await asyncio.sleep(1)
-                return await self.set_temperature(zone_number, temperature_celsius, retry=False)
+                return await self._send_zone_command(zone_number, params, retry=False)
             else:
-                raise UpdateFailed(f"Failed to send temperature command: {e}")
+                raise UpdateFailed(f"Failed to send command: {e}")
+
+    async def set_temperature(self, zone_number: int, temperature_celsius: float):
+        """Set zone temperature."""
+        api_value = self.celsius_to_api_value(temperature_celsius)
+        _LOGGER.debug(f"Setting temperature for zone {zone_number} to {temperature_celsius}°C (API value: {api_value})")
+        await self._send_zone_command(zone_number, {"2": api_value, "15": 0})
+
+    async def set_operation_mode(self, zone_number: int, mode: int):
+        """Set zone operation mode.
+
+        Mode values:
+        0 = PRESENCE (manual/comfort)
+        1 = ABSENCE (eco/away)
+        2 = OFF
+        4 = AUTO (timing programs/schedule)
+        """
+        _LOGGER.debug(f"Setting operation mode for zone {zone_number} to {mode}")
+        await self._send_zone_command(zone_number, {"15": mode})
+
+    async def set_light_ring(self, zone_number: int, enabled: bool):
+        """Enable or disable light ring on zone controller.
+
+        Args:
+            zone_number: The zone number
+            enabled: True to enable, False to disable
+        """
+        value = 1 if enabled else 0
+        _LOGGER.debug(f"Setting light ring for zone {zone_number} to {enabled}")
+        await self._send_zone_command(zone_number, {"34": value})
 
     async def disconnect(self):
         """Disconnect from MQTT."""

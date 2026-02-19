@@ -3,6 +3,10 @@ import logging
 from typing import Any
 
 from homeassistant.components.climate import (
+    PRESET_AWAY,
+    PRESET_COMFORT,
+    PRESET_ECO,
+    PRESET_NONE,
     ClimateEntity,
     ClimateEntityFeature,
     HVACMode,
@@ -17,6 +21,39 @@ from .const import DOMAIN
 from .coordinator import RehauDataCoordinator
 
 _LOGGER = logging.getLogger(__name__)
+
+# Operation mode mapping
+OPERATION_MODE_OFF = 2
+OPERATION_MODE_ABSENCE = 1
+OPERATION_MODE_PRESENCE = 0
+OPERATION_MODE_AUTO = 4
+
+# Preset mapping
+PRESET_AUTO = "auto"
+
+# Map HVAC modes to operation modes
+HVAC_MODE_TO_OPERATION = {
+    HVACMode.OFF: OPERATION_MODE_OFF,
+    HVACMode.HEAT: OPERATION_MODE_PRESENCE,
+    HVACMode.AUTO: OPERATION_MODE_AUTO,
+}
+
+# Map operation modes to HVAC modes
+OPERATION_TO_HVAC_MODE = {
+    OPERATION_MODE_OFF: HVACMode.OFF,
+    OPERATION_MODE_ABSENCE: HVACMode.HEAT,  # Eco mode is still heating
+    OPERATION_MODE_PRESENCE: HVACMode.HEAT,
+    OPERATION_MODE_AUTO: HVACMode.AUTO,
+}
+
+# Map presets to operation modes
+PRESET_TO_OPERATION = {
+    PRESET_NONE: OPERATION_MODE_PRESENCE,
+    PRESET_COMFORT: OPERATION_MODE_PRESENCE,
+    PRESET_AWAY: OPERATION_MODE_ABSENCE,
+    PRESET_ECO: OPERATION_MODE_ABSENCE,
+    PRESET_AUTO: OPERATION_MODE_AUTO,
+}
 
 
 async def async_setup_entry(
@@ -62,8 +99,12 @@ class RehauClimate(CoordinatorEntity, ClimateEntity):
     """Representation of a Rehau thermostat."""
 
     _attr_temperature_unit = UnitOfTemperature.CELSIUS
-    _attr_hvac_modes = [HVACMode.HEAT, HVACMode.OFF]
-    _attr_supported_features = ClimateEntityFeature.TARGET_TEMPERATURE
+    _attr_hvac_modes = [HVACMode.OFF, HVACMode.HEAT, HVACMode.AUTO]
+    _attr_preset_modes = [PRESET_NONE, PRESET_COMFORT, PRESET_AWAY, PRESET_ECO, PRESET_AUTO]
+    _attr_supported_features = (
+        ClimateEntityFeature.TARGET_TEMPERATURE
+        | ClimateEntityFeature.PRESET_MODE
+    )
 
     def __init__(
         self,
@@ -101,11 +142,24 @@ class RehauClimate(CoordinatorEntity, ClimateEntity):
     @property
     def hvac_mode(self) -> HVACMode:
         """Return current HVAC mode."""
-        # Check if heating is active based on demand
-        demand = self._channel_data.get("demand", 0)
-        if demand > 0:
-            return HVACMode.HEAT
-        return HVACMode.OFF
+        # Get operation mode from channel data (field 15)
+        operation_mode = self._channel_data.get("operation_mode", OPERATION_MODE_PRESENCE)
+        return OPERATION_TO_HVAC_MODE.get(operation_mode, HVACMode.HEAT)
+
+    @property
+    def preset_mode(self) -> str:
+        """Return the current preset mode."""
+        operation_mode = self._channel_data.get("operation_mode", OPERATION_MODE_PRESENCE)
+
+        if operation_mode == OPERATION_MODE_OFF:
+            return PRESET_NONE
+        elif operation_mode == OPERATION_MODE_ABSENCE:
+            return PRESET_AWAY
+        elif operation_mode == OPERATION_MODE_PRESENCE:
+            return PRESET_COMFORT
+        elif operation_mode == OPERATION_MODE_AUTO:
+            return PRESET_AUTO
+        return PRESET_NONE
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
@@ -146,9 +200,41 @@ class RehauClimate(CoordinatorEntity, ClimateEntity):
 
     async def async_set_hvac_mode(self, hvac_mode: HVACMode) -> None:
         """Set HVAC mode."""
-        # For now, we don't support changing HVAC mode
-        # The system is always in heating mode, controlled by setpoint
-        _LOGGER.warning(f"HVAC mode change not supported: {hvac_mode}")
+        if hvac_mode not in HVAC_MODE_TO_OPERATION:
+            _LOGGER.warning(f"Unsupported HVAC mode: {hvac_mode}")
+            return
+
+        operation_mode = HVAC_MODE_TO_OPERATION[hvac_mode]
+        _LOGGER.info(f"Setting HVAC mode for zone {self._zone_number} ({self._zone_name}) to {hvac_mode} (operation mode: {operation_mode})")
+
+        try:
+            await self.coordinator.set_operation_mode(self._zone_number, operation_mode)
+
+            # Update local state
+            self._channel_data["operation_mode"] = operation_mode
+            self.async_write_ha_state()
+
+        except Exception as err:
+            _LOGGER.error(f"Failed to set HVAC mode for {self._zone_name}: {err}", exc_info=True)
+
+    async def async_set_preset_mode(self, preset_mode: str) -> None:
+        """Set preset mode."""
+        if preset_mode not in PRESET_TO_OPERATION:
+            _LOGGER.warning(f"Unsupported preset mode: {preset_mode}")
+            return
+
+        operation_mode = PRESET_TO_OPERATION[preset_mode]
+        _LOGGER.info(f"Setting preset mode for zone {self._zone_number} ({self._zone_name}) to {preset_mode} (operation mode: {operation_mode})")
+
+        try:
+            await self.coordinator.set_operation_mode(self._zone_number, operation_mode)
+
+            # Update local state
+            self._channel_data["operation_mode"] = operation_mode
+            self.async_write_ha_state()
+
+        except Exception as err:
+            _LOGGER.error(f"Failed to set preset mode for {self._zone_name}: {err}", exc_info=True)
 
     @property
     def min_temp(self) -> float:
