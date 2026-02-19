@@ -9,6 +9,7 @@ from homeassistant.components.climate import (
     PRESET_NONE,
     ClimateEntity,
     ClimateEntityFeature,
+    HVACAction,
     HVACMode,
 )
 from homeassistant.config_entries import ConfigEntry
@@ -104,6 +105,8 @@ class RehauClimate(CoordinatorEntity, ClimateEntity):
     _attr_supported_features = (
         ClimateEntityFeature.TARGET_TEMPERATURE
         | ClimateEntityFeature.PRESET_MODE
+        | ClimateEntityFeature.TURN_ON
+        | ClimateEntityFeature.TURN_OFF
     )
 
     def __init__(
@@ -160,6 +163,23 @@ class RehauClimate(CoordinatorEntity, ClimateEntity):
         elif operation_mode == OPERATION_MODE_AUTO:
             return PRESET_AUTO
         return PRESET_NONE
+
+    @property
+    def hvac_action(self) -> HVACAction:
+        """Return the current HVAC action (heating/idle/off)."""
+        operation_mode = self._channel_data.get("operation_mode", OPERATION_MODE_PRESENCE)
+
+        # If system is off, return OFF
+        if operation_mode == OPERATION_MODE_OFF:
+            return HVACAction.OFF
+
+        # Check if actively heating based on demand
+        demand = self._channel_data.get("demand", 0)
+        if demand > 0:
+            return HVACAction.HEATING
+
+        # System is on but not heating (idle)
+        return HVACAction.IDLE
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
