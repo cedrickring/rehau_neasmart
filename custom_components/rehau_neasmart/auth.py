@@ -115,6 +115,12 @@ class RehauAuthClient:
                 parsed = urlparse(location)
                 params = parse_qs(parsed.query)
 
+                # If the redirect contains 'code', login completed without MFA
+                if 'code' in params:
+                    self.code = params.get("code", [None])[0]
+                    _LOGGER.info("Login completed without MFA, authorization code received directly")
+                    return True
+
                 self.track_id = params.get("track_id", [None])[0]
                 self.sub = params.get("sub", [None])[0]
                 # Keep the original request_id if not in redirect
@@ -123,10 +129,9 @@ class RehauAuthClient:
                 elif 'request_id' in params:
                     self.request_id = params.get("request_id", [None])[0]
 
-                _LOGGER.debug(f"Login redirect location: {location}")
                 _LOGGER.debug(f"Login successful, track_id: {self.track_id}, sub: {self.sub}, request_id: {self.request_id}")
                 if not self.sub:
-                    _LOGGER.warning("Login response did not contain 'sub' parameter in redirect URL")
+                    _LOGGER.warning(f"Login response did not contain 'sub' or 'code' in redirect URL: {location}")
                 return True
             _LOGGER.warning(f"Login failed with status: {response.status}")
             return False

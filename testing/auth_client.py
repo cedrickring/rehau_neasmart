@@ -112,6 +112,15 @@ class RehauAuthClient:
             params = parse_qs(parsed.query)
             print(f"Debug - Parsed params: {params}")
 
+            # If redirect contains 'code', login completed without MFA
+            if 'code' in params:
+                self.code = params.get('code', [None])[0]
+                print("Login completed without MFA, authorization code received directly")
+                return {
+                    "status": "no_mfa",
+                    "code": self.code,
+                }
+
             self.track_id = params.get('track_id', [None])[0]
             self.sub = params.get('sub', [None])[0]
             # Keep the original request_id if not in redirect
@@ -449,26 +458,30 @@ class RehauAuthClient:
         login_result = self.login(username, password)
         print()
 
-        # Step 2: Initiate MFA
-        print("Step 2: Initiating MFA email verification...")
-        mfa_init_result = self.initiate_mfa_email()
-        print()
+        if login_result["status"] == "no_mfa":
+            auth_code = login_result["code"]
+            print("No MFA required, skipping MFA steps.")
+        else:
+            # Step 2: Initiate MFA
+            print("Step 2: Initiating MFA email verification...")
+            mfa_init_result = self.initiate_mfa_email()
+            print()
 
-        # Step 3: Get MFA code from user
-        print("Step 3: Waiting for MFA code...")
-        mfa_code = input("Enter the MFA code from your email: ").strip()
-        print()
+            # Step 3: Get MFA code from user
+            print("Step 3: Waiting for MFA code...")
+            mfa_code = input("Enter the MFA code from your email: ").strip()
+            print()
 
-        # Step 4: Verify MFA code
-        print("Step 4: Verifying MFA code...")
-        verify_result = self.verify_mfa_code(mfa_code)
-        print()
+            # Step 4: Verify MFA code
+            print("Step 4: Verifying MFA code...")
+            verify_result = self.verify_mfa_code(mfa_code)
+            print()
 
-        # Step 5: Complete login
-        print("Step 5: Completing login flow...")
-        complete_result = self.complete_mfa_login()
-        auth_code = complete_result['code']
-        print()
+            # Step 5: Complete login
+            print("Step 5: Completing login flow...")
+            complete_result = self.complete_mfa_login()
+            auth_code = complete_result['code']
+            print()
 
         # Step 6: Get tokens
         print("Step 6: Exchanging authorization code for tokens...")

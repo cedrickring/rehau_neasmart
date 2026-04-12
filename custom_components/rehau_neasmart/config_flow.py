@@ -49,6 +49,22 @@ class RehauConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
                 if not success:
                     errors["base"] = "invalid_auth"
+                elif self.auth_client.code:
+                    # Login completed without MFA - get tokens directly
+                    tokens = await self.auth_client.get_tokens()
+                    self.data["access_token"] = tokens.get("access_token")
+                    self.data["refresh_token"] = tokens.get("refresh_token")
+                    self.data["sid"] = tokens.get("sid")
+                    self.data["expires_at"] = (
+                        datetime.now() + timedelta(seconds=tokens.get("expires_in", 86400))
+                    ).isoformat()
+                    await self.session.close()
+                    await self.async_set_unique_id(self.data[CONF_EMAIL])
+                    self._abort_if_unique_id_configured()
+                    return self.async_create_entry(
+                        title=f"Rehau ({self.data[CONF_EMAIL]})",
+                        data=self.data,
+                    )
                 else:
                     # MFA is required - proceed to MFA step
                     await self.auth_client.initiate_mfa_email()
