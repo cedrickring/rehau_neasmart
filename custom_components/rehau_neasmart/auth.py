@@ -123,7 +123,10 @@ class RehauAuthClient:
                 elif 'request_id' in params:
                     self.request_id = params.get("request_id", [None])[0]
 
+                _LOGGER.debug(f"Login redirect location: {location}")
                 _LOGGER.debug(f"Login successful, track_id: {self.track_id}, sub: {self.sub}, request_id: {self.request_id}")
+                if not self.sub:
+                    _LOGGER.warning("Login response did not contain 'sub' parameter in redirect URL")
                 return True
             _LOGGER.warning(f"Login failed with status: {response.status}")
             return False
@@ -131,7 +134,7 @@ class RehauAuthClient:
     async def initiate_mfa_email(self) -> bool:
         """Initiate MFA email verification."""
         if not self.sub or not self.request_id:
-            raise ValueError("Must call login() first")
+            raise ValueError(f"Login did not return required fields (sub={self.sub!r}, request_id={self.request_id!r}). Check debug logs for redirect URL.")
 
         _LOGGER.debug("Initiating MFA email verification")
 
