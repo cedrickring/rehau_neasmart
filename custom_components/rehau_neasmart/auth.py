@@ -355,7 +355,7 @@ class RehauAuthClient:
 
         async with self.session.get(
             f"https://api.nea2aws.aws.rehau.cloud/v2/users/{email}/getDataofInstall",
-            headers={**self.IOS_HEADERS, "Authorization": token},
+            headers={**self.IOS_HEADERS, "Authorization": f"Bearer {token}"},
             params=params,
         ) as response:
             _LOGGER.debug(f"Installation data response status: {response.status}")

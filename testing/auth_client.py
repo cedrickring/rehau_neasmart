@@ -429,7 +429,7 @@ class RehauAuthClient:
 
         response = self.session.get(
             f"https://api.nea2aws.aws.rehau.cloud/v2/users/{email}/getDataofInstall",
-            headers={"Authorization": access_token},
+            headers={"Authorization": f"Bearer {access_token}"},
             params=params
         )
 
