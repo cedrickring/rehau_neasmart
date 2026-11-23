@@ -258,7 +258,7 @@
           "name": "Base station"
         },
         "periods": {
-          "description": "List of periods with start and end on a quarter hour, e.g. [{\"start\": \"06:00\", \"end\": \"09:00\"}]. Empty clears the program.",
+          "description": "List of periods, each with a start and an end on a quarter hour (HH:MM, up to 24:00). An empty list clears the program.",
           "name": "Periods"
         },
         "program": {
@@ -280,7 +280,7 @@
           "name": "Group"
         },
         "values": {
-          "description": "Field names and new values, e.g. {\"HG1\": 15.5}. Use Get installer settings for names and limits.",
+          "description": "Field names and their new values. Use Get installer settings for the names and limits.",
           "name": "Values"
         }
       },
