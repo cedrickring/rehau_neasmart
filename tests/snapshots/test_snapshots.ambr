@@ -1,0 +1,2799 @@
+# serializer version: 1
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_alarms-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': None,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_alarms',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Alarms',
+    'options': dict({
+    }),
+    'original_device_class': <BinarySensorDeviceClass.PROBLEM: 'problem'>,
+    'original_icon': None,
+    'original_name': 'Alarms',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'alarms',
+    'unique_id': '66778899aabb_alarms_active',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_alarms-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'problem',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Alarms',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_alarms',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_digital_input_1-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_digital_input_1',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Digital input 1',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Digital input 1',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'digital_input',
+    'unique_id': '66778899aabb_io_master_di_1',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_digital_input_1-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Digital input 1',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_digital_input_1',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_digital_input_2-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_digital_input_2',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Digital input 2',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Digital input 2',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'digital_input',
+    'unique_id': '66778899aabb_io_master_di_2',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_digital_input_2-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Digital input 2',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_digital_input_2',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_digital_input_3-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_digital_input_3',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Digital input 3',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Digital input 3',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'digital_input',
+    'unique_id': '66778899aabb_io_master_di_3',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_digital_input_3-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Digital input 3',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_digital_input_3',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_digital_input_4-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_digital_input_4',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Digital input 4',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Digital input 4',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'digital_input',
+    'unique_id': '66778899aabb_io_master_di_4',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_digital_input_4-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Digital input 4',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_digital_input_4',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_relay_1-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_relay_1',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Relay 1',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Relay 1',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'relay',
+    'unique_id': '66778899aabb_io_master_relay_1',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_relay_1-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Relay 1',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_relay_1',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_relay_2-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_relay_2',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Relay 2',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Relay 2',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'relay',
+    'unique_id': '66778899aabb_io_master_relay_2',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_relay_2-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Relay 2',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_relay_2',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_relay_3-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_relay_3',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Relay 3',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Relay 3',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'relay',
+    'unique_id': '66778899aabb_io_master_relay_3',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_relay_3-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Relay 3',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_relay_3',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_relay_4-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_relay_4',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Relay 4',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Relay 4',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'relay',
+    'unique_id': '66778899aabb_io_master_relay_4',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_relay_4-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Relay 4',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_relay_4',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_1-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_1',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Zone valve output 1',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Zone valve output 1',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'zone_valve',
+    'unique_id': '66778899aabb_io_master_rz_1',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_1-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Zone valve output 1',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_1',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_2-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_2',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Zone valve output 2',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Zone valve output 2',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'zone_valve',
+    'unique_id': '66778899aabb_io_master_rz_2',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_2-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Zone valve output 2',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_2',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_3-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_3',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Zone valve output 3',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Zone valve output 3',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'zone_valve',
+    'unique_id': '66778899aabb_io_master_rz_3',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_3-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Zone valve output 3',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_3',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_4-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_4',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Zone valve output 4',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Zone valve output 4',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'zone_valve',
+    'unique_id': '66778899aabb_io_master_rz_4',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_4-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Zone valve output 4',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_4',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_5-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_5',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Zone valve output 5',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Zone valve output 5',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'zone_valve',
+    'unique_id': '66778899aabb_io_master_rz_5',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_5-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Zone valve output 5',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_5',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_6-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_6',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Zone valve output 6',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Zone valve output 6',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'zone_valve',
+    'unique_id': '66778899aabb_io_master_rz_6',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_6-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Zone valve output 6',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_6',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_7-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_7',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Zone valve output 7',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Zone valve output 7',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'zone_valve',
+    'unique_id': '66778899aabb_io_master_rz_7',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_7-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Zone valve output 7',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_7',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_8-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'binary_sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_8',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Zone valve output 8',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Zone valve output 8',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'zone_valve',
+    'unique_id': '66778899aabb_io_master_rz_8',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[binary_sensor][binary_sensor.rehau_nea_smart_2_0_zone_valve_output_8-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Zone valve output 8',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.rehau_nea_smart_2_0_zone_valve_output_8',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[button][button.rehau_nea_smart_2_0_acknowledge_alarms-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'button',
+    'entity_category': None,
+    'entity_id': 'button.rehau_nea_smart_2_0_acknowledge_alarms',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Acknowledge alarms',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Acknowledge alarms',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'clear_messages',
+    'unique_id': '66778899aabb_clear_messages',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[button][button.rehau_nea_smart_2_0_acknowledge_alarms-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Acknowledge alarms',
+    }),
+    'context': <ANY>,
+    'entity_id': 'button.rehau_nea_smart_2_0_acknowledge_alarms',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unknown',
+  })
+# ---
+# name: test_platform[climate][climate.rehau_nea_smart_2_0_bathroom-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: list([
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.HEAT: 'heat'>,
+      ]),
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 26.0,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 5.0,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'program',
+        'program_override',
+      ]),
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 0.5,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_0')]>,
+    'disabled_by': None,
+    'domain': 'climate',
+    'entity_category': None,
+    'entity_id': 'climate.rehau_nea_smart_2_0_bathroom',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': None,
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': None,
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': <ClimateEntityFeature: 401>,
+    'translation_key': 'room',
+    'unique_id': '66778899aabb_0_climate',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[climate][climate.rehau_nea_smart_2_0_bathroom-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 23.7,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bathroom',
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: list([
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.HEAT: 'heat'>,
+      ]),
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 26.0,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 5.0,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'normal',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'program',
+        'program_override',
+      ]),
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 0.5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 22.0,
+      <ClimateEntityStateAttribute.TEMPERATURE_UNIT: 'temperature_unit'>: <UnitOfTemperature.CELSIUS: '°C'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'climate.rehau_nea_smart_2_0_bathroom',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'heat',
+  })
+# ---
+# name: test_platform[climate][climate.rehau_nea_smart_2_0_bedroom-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: list([
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.HEAT: 'heat'>,
+      ]),
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 26.0,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 5.0,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'program',
+        'program_override',
+      ]),
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 0.5,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_5')]>,
+    'disabled_by': None,
+    'domain': 'climate',
+    'entity_category': None,
+    'entity_id': 'climate.rehau_nea_smart_2_0_bedroom',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': None,
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': None,
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': <ClimateEntityFeature: 401>,
+    'translation_key': 'room',
+    'unique_id': '66778899aabb_5_climate',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[climate][climate.rehau_nea_smart_2_0_bedroom-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 24.0,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bedroom',
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: list([
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.HEAT: 'heat'>,
+      ]),
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 26.0,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 5.0,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'normal',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'program',
+        'program_override',
+      ]),
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 0.5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 23.0,
+      <ClimateEntityStateAttribute.TEMPERATURE_UNIT: 'temperature_unit'>: <UnitOfTemperature.CELSIUS: '°C'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'climate.rehau_nea_smart_2_0_bedroom',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'heat',
+  })
+# ---
+# name: test_platform[climate][climate.rehau_nea_smart_2_0_hallway-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: list([
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.HEAT: 'heat'>,
+      ]),
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 26.0,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 5.0,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'program',
+        'program_override',
+      ]),
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 0.5,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_3')]>,
+    'disabled_by': None,
+    'domain': 'climate',
+    'entity_category': None,
+    'entity_id': 'climate.rehau_nea_smart_2_0_hallway',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': None,
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': None,
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': <ClimateEntityFeature: 401>,
+    'translation_key': 'room',
+    'unique_id': '66778899aabb_3_climate',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[climate][climate.rehau_nea_smart_2_0_hallway-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 21.7,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Hallway',
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: list([
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.HEAT: 'heat'>,
+      ]),
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 26.0,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 5.0,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'normal',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'program',
+        'program_override',
+      ]),
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 0.5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 22.0,
+      <ClimateEntityStateAttribute.TEMPERATURE_UNIT: 'temperature_unit'>: <UnitOfTemperature.CELSIUS: '°C'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'climate.rehau_nea_smart_2_0_hallway',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'heat',
+  })
+# ---
+# name: test_platform[climate][climate.rehau_nea_smart_2_0_living_room-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: list([
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.HEAT: 'heat'>,
+      ]),
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 26.0,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 5.0,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'program',
+        'program_override',
+      ]),
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 0.5,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_1')]>,
+    'disabled_by': None,
+    'domain': 'climate',
+    'entity_category': None,
+    'entity_id': 'climate.rehau_nea_smart_2_0_living_room',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': None,
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': None,
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': <ClimateEntityFeature: 401>,
+    'translation_key': 'room',
+    'unique_id': '66778899aabb_1_climate',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[climate][climate.rehau_nea_smart_2_0_living_room-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 22.1,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Living Room',
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: list([
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.HEAT: 'heat'>,
+      ]),
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 26.0,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 5.0,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'normal',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'program',
+        'program_override',
+      ]),
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 0.5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 22.5,
+      <ClimateEntityStateAttribute.TEMPERATURE_UNIT: 'temperature_unit'>: <UnitOfTemperature.CELSIUS: '°C'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'climate.rehau_nea_smart_2_0_living_room',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'heat',
+  })
+# ---
+# name: test_platform[climate][climate.rehau_nea_smart_2_0_office-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: list([
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.HEAT: 'heat'>,
+      ]),
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 26.0,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 5.0,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'program',
+        'program_override',
+      ]),
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 0.5,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_4')]>,
+    'disabled_by': None,
+    'domain': 'climate',
+    'entity_category': None,
+    'entity_id': 'climate.rehau_nea_smart_2_0_office',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': None,
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': None,
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': <ClimateEntityFeature: 401>,
+    'translation_key': 'room',
+    'unique_id': '66778899aabb_4_climate',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[climate][climate.rehau_nea_smart_2_0_office-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 22.8,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Office',
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: list([
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.HEAT: 'heat'>,
+      ]),
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 26.0,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 5.0,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'normal',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'program',
+        'program_override',
+      ]),
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 0.5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 23.0,
+      <ClimateEntityStateAttribute.TEMPERATURE_UNIT: 'temperature_unit'>: <UnitOfTemperature.CELSIUS: '°C'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'climate.rehau_nea_smart_2_0_office',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'heat',
+  })
+# ---
+# name: test_platform[number][number.rehau_nea_smart_2_0_bathroom_temperature_offset-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <NumberEntityCapabilityAttribute.MAX: 'max'>: 5.0,
+      <NumberEntityCapabilityAttribute.MIN: 'min'>: -5.0,
+      <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.BOX: 'box'>,
+      <NumberEntityCapabilityAttribute.STEP: 'step'>: 0.1,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_0')]>,
+    'disabled_by': None,
+    'domain': 'number',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'number.rehau_nea_smart_2_0_bathroom_temperature_offset',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Temperature offset',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Temperature offset',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'temperature_offset',
+    'unique_id': '66778899aabb_0_temperature_offset',
+    'unit_of_measurement': <UnitOfTemperature.CELSIUS: '°C'>,
+  })
+# ---
+# name: test_platform[number][number.rehau_nea_smart_2_0_bathroom_temperature_offset-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bathroom Temperature offset',
+      <NumberEntityCapabilityAttribute.MAX: 'max'>: 5.0,
+      <NumberEntityCapabilityAttribute.MIN: 'min'>: -5.0,
+      <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.BOX: 'box'>,
+      <NumberEntityCapabilityAttribute.STEP: 'step'>: 0.1,
+      <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTemperature.CELSIUS: '°C'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.rehau_nea_smart_2_0_bathroom_temperature_offset',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0.0',
+  })
+# ---
+# name: test_platform[number][number.rehau_nea_smart_2_0_bedroom_temperature_offset-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <NumberEntityCapabilityAttribute.MAX: 'max'>: 5.0,
+      <NumberEntityCapabilityAttribute.MIN: 'min'>: -5.0,
+      <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.BOX: 'box'>,
+      <NumberEntityCapabilityAttribute.STEP: 'step'>: 0.1,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_5')]>,
+    'disabled_by': None,
+    'domain': 'number',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'number.rehau_nea_smart_2_0_bedroom_temperature_offset',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Temperature offset',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Temperature offset',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'temperature_offset',
+    'unique_id': '66778899aabb_5_temperature_offset',
+    'unit_of_measurement': <UnitOfTemperature.CELSIUS: '°C'>,
+  })
+# ---
+# name: test_platform[number][number.rehau_nea_smart_2_0_bedroom_temperature_offset-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bedroom Temperature offset',
+      <NumberEntityCapabilityAttribute.MAX: 'max'>: 5.0,
+      <NumberEntityCapabilityAttribute.MIN: 'min'>: -5.0,
+      <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.BOX: 'box'>,
+      <NumberEntityCapabilityAttribute.STEP: 'step'>: 0.1,
+      <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTemperature.CELSIUS: '°C'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.rehau_nea_smart_2_0_bedroom_temperature_offset',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0.0',
+  })
+# ---
+# name: test_platform[number][number.rehau_nea_smart_2_0_hallway_temperature_offset-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <NumberEntityCapabilityAttribute.MAX: 'max'>: 5.0,
+      <NumberEntityCapabilityAttribute.MIN: 'min'>: -5.0,
+      <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.BOX: 'box'>,
+      <NumberEntityCapabilityAttribute.STEP: 'step'>: 0.1,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_3')]>,
+    'disabled_by': None,
+    'domain': 'number',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'number.rehau_nea_smart_2_0_hallway_temperature_offset',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Temperature offset',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Temperature offset',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'temperature_offset',
+    'unique_id': '66778899aabb_3_temperature_offset',
+    'unit_of_measurement': <UnitOfTemperature.CELSIUS: '°C'>,
+  })
+# ---
+# name: test_platform[number][number.rehau_nea_smart_2_0_hallway_temperature_offset-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Hallway Temperature offset',
+      <NumberEntityCapabilityAttribute.MAX: 'max'>: 5.0,
+      <NumberEntityCapabilityAttribute.MIN: 'min'>: -5.0,
+      <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.BOX: 'box'>,
+      <NumberEntityCapabilityAttribute.STEP: 'step'>: 0.1,
+      <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTemperature.CELSIUS: '°C'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.rehau_nea_smart_2_0_hallway_temperature_offset',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0.0',
+  })
+# ---
+# name: test_platform[number][number.rehau_nea_smart_2_0_living_room_temperature_offset-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <NumberEntityCapabilityAttribute.MAX: 'max'>: 5.0,
+      <NumberEntityCapabilityAttribute.MIN: 'min'>: -5.0,
+      <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.BOX: 'box'>,
+      <NumberEntityCapabilityAttribute.STEP: 'step'>: 0.1,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_1')]>,
+    'disabled_by': None,
+    'domain': 'number',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'number.rehau_nea_smart_2_0_living_room_temperature_offset',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Temperature offset',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Temperature offset',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'temperature_offset',
+    'unique_id': '66778899aabb_1_temperature_offset',
+    'unit_of_measurement': <UnitOfTemperature.CELSIUS: '°C'>,
+  })
+# ---
+# name: test_platform[number][number.rehau_nea_smart_2_0_living_room_temperature_offset-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Living Room Temperature offset',
+      <NumberEntityCapabilityAttribute.MAX: 'max'>: 5.0,
+      <NumberEntityCapabilityAttribute.MIN: 'min'>: -5.0,
+      <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.BOX: 'box'>,
+      <NumberEntityCapabilityAttribute.STEP: 'step'>: 0.1,
+      <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTemperature.CELSIUS: '°C'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.rehau_nea_smart_2_0_living_room_temperature_offset',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0.0',
+  })
+# ---
+# name: test_platform[number][number.rehau_nea_smart_2_0_office_temperature_offset-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <NumberEntityCapabilityAttribute.MAX: 'max'>: 5.0,
+      <NumberEntityCapabilityAttribute.MIN: 'min'>: -5.0,
+      <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.BOX: 'box'>,
+      <NumberEntityCapabilityAttribute.STEP: 'step'>: 0.1,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_4')]>,
+    'disabled_by': None,
+    'domain': 'number',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'number.rehau_nea_smart_2_0_office_temperature_offset',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Temperature offset',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Temperature offset',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'temperature_offset',
+    'unique_id': '66778899aabb_4_temperature_offset',
+    'unit_of_measurement': <UnitOfTemperature.CELSIUS: '°C'>,
+  })
+# ---
+# name: test_platform[number][number.rehau_nea_smart_2_0_office_temperature_offset-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Office Temperature offset',
+      <NumberEntityCapabilityAttribute.MAX: 'max'>: 5.0,
+      <NumberEntityCapabilityAttribute.MIN: 'min'>: -5.0,
+      <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.BOX: 'box'>,
+      <NumberEntityCapabilityAttribute.STEP: 'step'>: 0.1,
+      <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: <UnitOfTemperature.CELSIUS: '°C'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.rehau_nea_smart_2_0_office_temperature_offset',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0.0',
+  })
+# ---
+# name: test_platform[select][select.rehau_nea_smart_2_0_energy_level-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <SelectEntityCapabilityAttribute.OPTIONS: 'options'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'auto',
+        'vacation',
+      ]),
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'select',
+    'entity_category': None,
+    'entity_id': 'select.rehau_nea_smart_2_0_energy_level',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Energy level',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Energy level',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'energy_level',
+    'unique_id': '66778899aabb_energy_level',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[select][select.rehau_nea_smart_2_0_energy_level-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Energy level',
+      <SelectEntityCapabilityAttribute.OPTIONS: 'options'>: list([
+        'normal',
+        'reduced',
+        'standby',
+        'auto',
+        'vacation',
+      ]),
+    }),
+    'context': <ANY>,
+    'entity_id': 'select.rehau_nea_smart_2_0_energy_level',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'normal',
+  })
+# ---
+# name: test_platform[select][select.rehau_nea_smart_2_0_operating_mode-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <SelectEntityCapabilityAttribute.OPTIONS: 'options'>: list([
+        'manual_heating',
+        'heating_only',
+      ]),
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'select',
+    'entity_category': None,
+    'entity_id': 'select.rehau_nea_smart_2_0_operating_mode',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Operating mode',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Operating mode',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'operating_mode',
+    'unique_id': '66778899aabb_operating_mode',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[select][select.rehau_nea_smart_2_0_operating_mode-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Operating mode',
+      <SelectEntityCapabilityAttribute.OPTIONS: 'options'>: list([
+        'manual_heating',
+        'heating_only',
+      ]),
+    }),
+    'context': <ANY>,
+    'entity_id': 'select.rehau_nea_smart_2_0_operating_mode',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'manual_heating',
+  })
+# ---
+# name: test_platform[sensor][sensor.rehau_nea_smart_2_0_active_alarms-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': dict({
+      <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
+    }),
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <DeviceEntry identifiers=[('rehau_neasmart', '66778899aabb')]>,
+    'disabled_by': None,
+    'domain': 'sensor',
+    'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
+    'entity_id': 'sensor.rehau_nea_smart_2_0_active_alarms',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Active alarms',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Active alarms',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'active_alarms',
+    'unique_id': '66778899aabb_active_alarms',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[sensor][sensor.rehau_nea_smart_2_0_active_alarms-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'REHAU Nea Smart 2.0 Active alarms',
+      <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.rehau_nea_smart_2_0_active_alarms',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bathroom_adaptive_start-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_0')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bathroom_adaptive_start',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Adaptive start',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Adaptive start',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'auto_start',
+    'unique_id': '66778899aabb_0_auto_start',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bathroom_adaptive_start-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bathroom Adaptive start',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bathroom_adaptive_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bathroom_display_lock-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_0')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bathroom_display_lock',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Display lock',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Display lock',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'lock',
+    'unique_id': '66778899aabb_0_lock',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bathroom_display_lock-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bathroom Display lock',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bathroom_display_lock',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bathroom_light-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_0')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': None,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bathroom_light',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Light',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Light',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'light',
+    'unique_id': '66778899aabb_0_light',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bathroom_light-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bathroom Light',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bathroom_light',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bathroom_open_window_detection-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_0')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bathroom_open_window_detection',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Open window detection',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Open window detection',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'window_detection',
+    'unique_id': '66778899aabb_0_window_detection',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bathroom_open_window_detection-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bathroom Open window detection',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bathroom_open_window_detection',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bedroom_adaptive_start-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_5')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bedroom_adaptive_start',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Adaptive start',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Adaptive start',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'auto_start',
+    'unique_id': '66778899aabb_5_auto_start',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bedroom_adaptive_start-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bedroom Adaptive start',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bedroom_adaptive_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bedroom_display_lock-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_5')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bedroom_display_lock',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Display lock',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Display lock',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'lock',
+    'unique_id': '66778899aabb_5_lock',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bedroom_display_lock-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bedroom Display lock',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bedroom_display_lock',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bedroom_light-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_5')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': None,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bedroom_light',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Light',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Light',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'light',
+    'unique_id': '66778899aabb_5_light',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bedroom_light-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bedroom Light',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bedroom_light',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bedroom_open_window_detection-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_5')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bedroom_open_window_detection',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Open window detection',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Open window detection',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'window_detection',
+    'unique_id': '66778899aabb_5_window_detection',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_bedroom_open_window_detection-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Bedroom Open window detection',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_bedroom_open_window_detection',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_hallway_adaptive_start-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_3')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_hallway_adaptive_start',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Adaptive start',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Adaptive start',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'auto_start',
+    'unique_id': '66778899aabb_3_auto_start',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_hallway_adaptive_start-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Hallway Adaptive start',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_hallway_adaptive_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_hallway_display_lock-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_3')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_hallway_display_lock',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Display lock',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Display lock',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'lock',
+    'unique_id': '66778899aabb_3_lock',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_hallway_display_lock-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Hallway Display lock',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_hallway_display_lock',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_hallway_light-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_3')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': None,
+    'entity_id': 'switch.rehau_nea_smart_2_0_hallway_light',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Light',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Light',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'light',
+    'unique_id': '66778899aabb_3_light',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_hallway_light-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Hallway Light',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_hallway_light',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_hallway_open_window_detection-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_3')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_hallway_open_window_detection',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Open window detection',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Open window detection',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'window_detection',
+    'unique_id': '66778899aabb_3_window_detection',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_hallway_open_window_detection-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Hallway Open window detection',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_hallway_open_window_detection',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_living_room_adaptive_start-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_1')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_living_room_adaptive_start',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Adaptive start',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Adaptive start',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'auto_start',
+    'unique_id': '66778899aabb_1_auto_start',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_living_room_adaptive_start-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Living Room Adaptive start',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_living_room_adaptive_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_living_room_display_lock-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_1')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_living_room_display_lock',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Display lock',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Display lock',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'lock',
+    'unique_id': '66778899aabb_1_lock',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_living_room_display_lock-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Living Room Display lock',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_living_room_display_lock',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_living_room_light-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_1')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': None,
+    'entity_id': 'switch.rehau_nea_smart_2_0_living_room_light',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Light',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Light',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'light',
+    'unique_id': '66778899aabb_1_light',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_living_room_light-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Living Room Light',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_living_room_light',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_living_room_open_window_detection-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_1')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_living_room_open_window_detection',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Open window detection',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Open window detection',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'window_detection',
+    'unique_id': '66778899aabb_1_window_detection',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_living_room_open_window_detection-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Living Room Open window detection',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_living_room_open_window_detection',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_office_adaptive_start-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_4')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_office_adaptive_start',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Adaptive start',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Adaptive start',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'auto_start',
+    'unique_id': '66778899aabb_4_auto_start',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_office_adaptive_start-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Office Adaptive start',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_office_adaptive_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_office_display_lock-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_4')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_office_display_lock',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Display lock',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Display lock',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'lock',
+    'unique_id': '66778899aabb_4_lock',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_office_display_lock-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Office Display lock',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_office_display_lock',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_office_light-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_4')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': None,
+    'entity_id': 'switch.rehau_nea_smart_2_0_office_light',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Light',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Light',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'light',
+    'unique_id': '66778899aabb_4_light',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_office_light-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Office Light',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_office_light',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_office_open_window_detection-entry]
+  EntityRegistryEntrySnapshot({
+    'aliases': list([
+      None,
+    ]),
+    'area_id': None,
+    'capabilities': None,
+    'config_entry_id': <ANY>,
+    'config_subentry_id': None,
+    'device_class': None,
+    'device_id': <ChildDeviceEntry identifiers=[('rehau_neasmart', '66778899aabb_4')]>,
+    'disabled_by': None,
+    'domain': 'switch',
+    'entity_category': <EntityCategory.CONFIG: 'config'>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_office_open_window_detection',
+    'has_entity_name': True,
+    'hidden_by': None,
+    'icon': None,
+    'id': <ANY>,
+    'labels': set({
+    }),
+    'name': None,
+    'object_id_base': 'Open window detection',
+    'options': dict({
+    }),
+    'original_device_class': None,
+    'original_icon': None,
+    'original_name': 'Open window detection',
+    'platform': 'rehau_neasmart',
+    'previous_unique_id': None,
+    'suggested_object_id': None,
+    'supported_features': 0,
+    'translation_key': 'window_detection',
+    'unique_id': '66778899aabb_4_window_detection',
+    'unit_of_measurement': None,
+  })
+# ---
+# name: test_platform[switch][switch.rehau_nea_smart_2_0_office_open_window_detection-state]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Office Open window detection',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.rehau_nea_smart_2_0_office_open_window_detection',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---

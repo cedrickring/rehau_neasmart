@@ -1,0 +1,332 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "This base station is already set up.",
+      "reconfigure_successful": "The base station was updated.",
+      "wrong_device": "That address belongs to a different base station."
+    },
+    "error": {
+      "cannot_connect": "The base station did not answer. Check the address and that Home Assistant can reach the network the base station is on.",
+      "installer_code_too_long": "The installer code has at most 8 characters.",
+      "invalid_device": "The address answered, but not like a REHAU Nea Smart 2.0 base station.",
+      "no_rooms": "The base station shows no rooms. Set up the rooms on the base station first.",
+      "unknown": "Unexpected error. See the logs for details."
+    },
+    "step": {
+      "reconfigure": {
+        "data": {
+          "host": "Host",
+          "installer_code": "Installer code"
+        },
+        "data_description": {
+          "host": "Address of the base station's web interface, e.g. 192.168.0.2.",
+          "installer_code": "Leave empty to skip installer data. While Home Assistant runs, installer mode stays on for every client of the base station."
+        },
+        "description": "Change the address or installer code of this base station."
+      },
+      "user": {
+        "data": {
+          "host": "Host",
+          "installer_code": "Installer code"
+        },
+        "data_description": {
+          "host": "Address of the base station's web interface, e.g. 192.168.0.2.",
+          "installer_code": "Leave empty to skip installer data. While Home Assistant runs, installer mode stays on for every client of the base station."
+        },
+        "description": "The base station allows one client at a time. Stop any other tool that polls it (such as rehau-bridge) before continuing."
+      }
+    }
+  },
+  "device": {
+    "umodule": {
+      "name": "U-module {index}"
+    }
+  },
+  "entity": {
+    "binary_sensor": {
+      "alarms": {
+        "name": "Alarms"
+      },
+      "digital_input": {
+        "name": "Digital input {index}"
+      },
+      "fan_running": {
+        "name": "Fancoil"
+      },
+      "flap": {
+        "name": "Flap"
+      },
+      "relay": {
+        "name": "Relay {index}"
+      },
+      "zone_valve": {
+        "name": "Zone valve output {index}"
+      }
+    },
+    "button": {
+      "clear_messages": {
+        "name": "Acknowledge alarms"
+      }
+    },
+    "climate": {
+      "room": {
+        "state_attributes": {
+          "preset_mode": {
+            "state": {
+              "normal": "Normal",
+              "program": "Program",
+              "program_override": "Program override",
+              "reduced": "Reduced",
+              "standby": "Standby"
+            }
+          }
+        }
+      }
+    },
+    "number": {
+      "humidity_offset": {
+        "name": "Humidity offset"
+      },
+      "outdoor_offset": {
+        "name": "Outdoor temperature offset"
+      },
+      "temperature_offset": {
+        "name": "Temperature offset"
+      }
+    },
+    "select": {
+      "energy_level": {
+        "name": "Energy level",
+        "state": {
+          "auto": "Auto",
+          "normal": "Normal",
+          "reduced": "Reduced",
+          "standby": "Standby",
+          "vacation": "Vacation"
+        }
+      },
+      "operating_mode": {
+        "name": "Operating mode",
+        "state": {
+          "cooling_only": "Cooling only",
+          "heating_only": "Heating only",
+          "manual_cooling": "Manual cooling",
+          "manual_heating": "Manual heating"
+        }
+      }
+    },
+    "sensor": {
+      "active_alarms": {
+        "name": "Active alarms"
+      },
+      "analog_input": {
+        "name": "Analog input {index}"
+      },
+      "analog_output": {
+        "name": "Analog output"
+      },
+      "fan_speed": {
+        "name": "Fancoil speed",
+        "state": {
+          "high": "High",
+          "low": "Low",
+          "max": "Maximum",
+          "medium": "Medium",
+          "off": "Off"
+        }
+      },
+      "outdoor_temperature": {
+        "name": "Outdoor temperature"
+      }
+    },
+    "switch": {
+      "auto_start": {
+        "name": "Adaptive start"
+      },
+      "light": {
+        "name": "Light"
+      },
+      "lock": {
+        "name": "Display lock"
+      },
+      "window_detection": {
+        "name": "Open window detection"
+      }
+    }
+  },
+  "exceptions": {
+    "installer_required": {
+      "message": "This needs an installer code. Add one by reconfiguring the integration."
+    },
+    "invalid_periods": {
+      "message": "Invalid program periods: {error}"
+    },
+    "no_rooms": {
+      "message": "The base station shows no rooms."
+    },
+    "not_ready": {
+      "message": "The base station has not been read yet."
+    },
+    "room_unknown": {
+      "message": "Zone {zone} has not been read from the base station."
+    },
+    "setpoint_unknown": {
+      "message": "The room's setpoints have not been read yet."
+    },
+    "update_failed": {
+      "message": "Could not read the base station: {error}"
+    },
+    "weekly_program_unknown": {
+      "message": "This weekly program has not been read yet; give all seven days."
+    },
+    "write_failed": {
+      "message": "The base station did not accept the change: {error}"
+    },
+    "write_rejected": {
+      "message": "Invalid value: {error}"
+    },
+    "wrong_device": {
+      "message": "A different base station answers at this address. Reconfigure the integration."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "expose_calibration": "Calibration offsets",
+          "expose_io": "Inputs and outputs"
+        },
+        "data_description": {
+          "expose_calibration": "Show the installer probe offsets as editable numbers. Needs an installer code.",
+          "expose_io": "Poll relays, zone valve outputs and inputs every 10 seconds. The entities start disabled. Needs an installer code."
+        }
+      }
+    }
+  },
+  "selector": {
+    "settings_group": {
+      "options": {
+        "curve": "Heating curve and mixer",
+        "heatcool": "Heating and cooling",
+        "devices": "Devices",
+        "functions": "Functions",
+        "pid": "Room control (PID)",
+        "fancoil": "Fancoils"
+      }
+    }
+  },
+  "services": {
+    "get_installer_settings": {
+      "description": "Returns the fields of one installer settings page with the limits the base station declares.",
+      "fields": {
+        "config_entry_id": {
+          "description": "The base station.",
+          "name": "Base station"
+        },
+        "group": {
+          "description": "Which settings page.",
+          "name": "Group"
+        }
+      },
+      "name": "Get installer settings"
+    },
+    "get_messages": {
+      "description": "Returns the base station's alarm log.",
+      "fields": {
+        "config_entry_id": {
+          "description": "The base station.",
+          "name": "Base station"
+        }
+      },
+      "name": "Get messages"
+    },
+    "get_programs": {
+      "description": "Returns the daily programs as periods and the weekly programs as day assignments.",
+      "fields": {
+        "config_entry_id": {
+          "description": "The base station.",
+          "name": "Base station"
+        }
+      },
+      "name": "Get programs"
+    },
+    "set_daily_program": {
+      "description": "Replaces the periods of a daily program.",
+      "fields": {
+        "config_entry_id": {
+          "description": "The base station.",
+          "name": "Base station"
+        },
+        "periods": {
+          "description": "List of periods with start and end on a quarter hour, e.g. [{\"start\": \"06:00\", \"end\": \"09:00\"}]. Empty clears the program.",
+          "name": "Periods"
+        },
+        "program": {
+          "description": "Daily program number.",
+          "name": "Program"
+        }
+      },
+      "name": "Set daily program"
+    },
+    "set_installer_settings": {
+      "description": "Changes fields of one installer settings page. Every other field is resubmitted unchanged.",
+      "fields": {
+        "config_entry_id": {
+          "description": "The base station.",
+          "name": "Base station"
+        },
+        "group": {
+          "description": "Which settings page.",
+          "name": "Group"
+        },
+        "values": {
+          "description": "Field names and new values, e.g. {\"HG1\": 15.5}. Use Get installer settings for names and limits.",
+          "name": "Values"
+        }
+      },
+      "name": "Set installer settings"
+    },
+    "set_weekly_program": {
+      "description": "Assigns daily programs to the days of a weekly program. Days left out keep their program.",
+      "fields": {
+        "config_entry_id": {
+          "description": "The base station.",
+          "name": "Base station"
+        },
+        "friday": {
+          "description": "Daily program for Friday.",
+          "name": "Friday"
+        },
+        "monday": {
+          "description": "Daily program for Monday.",
+          "name": "Monday"
+        },
+        "program": {
+          "description": "Weekly program number.",
+          "name": "Program"
+        },
+        "saturday": {
+          "description": "Daily program for Saturday.",
+          "name": "Saturday"
+        },
+        "sunday": {
+          "description": "Daily program for Sunday.",
+          "name": "Sunday"
+        },
+        "thursday": {
+          "description": "Daily program for Thursday.",
+          "name": "Thursday"
+        },
+        "tuesday": {
+          "description": "Daily program for Tuesday.",
+          "name": "Tuesday"
+        },
+        "wednesday": {
+          "description": "Daily program for Wednesday.",
+          "name": "Wednesday"
+        }
+      },
+      "name": "Set weekly program"
+    }
+  }
+}

@@ -1,0 +1,137 @@
+get_programs:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: rehau_neasmart
+
+get_messages:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: rehau_neasmart
+
+set_daily_program:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: rehau_neasmart
+    program:
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 10
+          mode: box
+    periods:
+      required: true
+      example: '[{"start": "06:00", "end": "09:00"}, {"start": "17:00", "end": "22:30"}]'
+      selector:
+        object:
+
+set_weekly_program:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: rehau_neasmart
+    program:
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 5
+          mode: box
+    monday:
+      selector:
+        number:
+          min: 1
+          max: 10
+          mode: box
+    tuesday:
+      selector:
+        number:
+          min: 1
+          max: 10
+          mode: box
+    wednesday:
+      selector:
+        number:
+          min: 1
+          max: 10
+          mode: box
+    thursday:
+      selector:
+        number:
+          min: 1
+          max: 10
+          mode: box
+    friday:
+      selector:
+        number:
+          min: 1
+          max: 10
+          mode: box
+    saturday:
+      selector:
+        number:
+          min: 1
+          max: 10
+          mode: box
+    sunday:
+      selector:
+        number:
+          min: 1
+          max: 10
+          mode: box
+
+get_installer_settings:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: rehau_neasmart
+    group:
+      required: true
+      selector:
+        select:
+          translation_key: settings_group
+          options:
+            - curve
+            - heatcool
+            - devices
+            - functions
+            - pid
+            - fancoil
+
+set_installer_settings:
+  fields:
+    config_entry_id:
+      required: true
+      selector:
+        config_entry:
+          integration: rehau_neasmart
+    group:
+      required: true
+      selector:
+        select:
+          translation_key: settings_group
+          options:
+            - curve
+            - heatcool
+            - devices
+            - functions
+            - pid
+            - fancoil
+    values:
+      required: true
+      example: '{"HG1": 15.5}'
+      selector:
+        object:

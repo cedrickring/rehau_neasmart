@@ -152,22 +152,32 @@ class RehauDevice:
         return info
 
     async def fetch_daily_program(self, program_id: int) -> DailyProgram:
-        """Read daily program 1..10."""
+        """Read daily program 1..10; a page for another program is rejected."""
         _check_id("daily program", program_id, DAILY_PROGRAMS)
-        return parse_daily_program(
+        program = parse_daily_program(
             await self._client.post_key(
                 "/user-update-daily-program.html", str(program_id)
             )
         )
+        if program.id != program_id:
+            raise RehauInvalidDeviceError(
+                f"asked for daily program {program_id}, got {program.id}"
+            )
+        return program
 
     async def fetch_weekly_program(self, program_id: int) -> WeeklyProgram:
-        """Read weekly program 1..5."""
+        """Read weekly program 1..5; a page for another program is rejected."""
         _check_id("weekly program", program_id, WEEKLY_PROGRAMS)
-        return parse_weekly_program(
+        program = parse_weekly_program(
             await self._client.post_key(
                 "/user-update-weekly-program.html", str(program_id)
             )
         )
+        if program.id != program_id:
+            raise RehauInvalidDeviceError(
+                f"asked for weekly program {program_id}, got {program.id}"
+            )
+        return program
 
     async def fetch_calibration(self) -> Calibration:
         """Read the probe offsets (installer)."""

@@ -373,3 +373,16 @@ async def test_settings_write_toggles_checkbox(
     body = posts(client)[-1][1]
     assert "PU20" not in body
     assert body["PU3"] == "on"
+
+
+async def test_program_page_for_another_id_is_rejected(
+    device: RehauDevice, client: FakeClient
+) -> None:
+    client.pages["/user-update-daily-program.html#3"] = client.pages[
+        "/user-update-daily-program.html#1"
+    ]
+    client.pages["/user-update-weekly-program.html#2"] = "<html></html>"
+    with pytest.raises(RehauInvalidDeviceError):
+        await device.fetch_daily_program(3)
+    with pytest.raises(RehauInvalidDeviceError):
+        await device.fetch_weekly_program(2)

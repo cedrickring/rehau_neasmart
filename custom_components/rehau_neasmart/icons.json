@@ -1,0 +1,90 @@
+{
+  "entity": {
+    "binary_sensor": {
+      "fan_running": {
+        "default": "mdi:fan"
+      },
+      "flap": {
+        "default": "mdi:valve"
+      },
+      "zone_valve": {
+        "default": "mdi:valve"
+      },
+      "relay": {
+        "default": "mdi:electric-switch"
+      },
+      "digital_input": {
+        "default": "mdi:electric-switch-closed"
+      }
+    },
+    "button": {
+      "clear_messages": {
+        "default": "mdi:bell-check"
+      }
+    },
+    "number": {
+      "outdoor_offset": {
+        "default": "mdi:thermometer-plus"
+      },
+      "temperature_offset": {
+        "default": "mdi:thermometer-plus"
+      },
+      "humidity_offset": {
+        "default": "mdi:water-percent"
+      }
+    },
+    "select": {
+      "operating_mode": {
+        "default": "mdi:sun-snowflake-variant"
+      },
+      "energy_level": {
+        "default": "mdi:leaf"
+      }
+    },
+    "sensor": {
+      "active_alarms": {
+        "default": "mdi:alert-circle-outline"
+      },
+      "fan_speed": {
+        "default": "mdi:fan-speed-1"
+      },
+      "analog_output": {
+        "default": "mdi:gauge"
+      }
+    },
+    "switch": {
+      "lock": {
+        "default": "mdi:lock"
+      },
+      "auto_start": {
+        "default": "mdi:clock-start"
+      },
+      "window_detection": {
+        "default": "mdi:window-open-variant"
+      },
+      "light": {
+        "default": "mdi:lightbulb"
+      }
+    }
+  },
+  "services": {
+    "get_programs": {
+      "service": "mdi:calendar-clock"
+    },
+    "set_daily_program": {
+      "service": "mdi:calendar-edit"
+    },
+    "set_weekly_program": {
+      "service": "mdi:calendar-week"
+    },
+    "get_messages": {
+      "service": "mdi:message-alert"
+    },
+    "get_installer_settings": {
+      "service": "mdi:cog"
+    },
+    "set_installer_settings": {
+      "service": "mdi:cog-outline"
+    }
+  }
+}

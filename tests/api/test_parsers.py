@@ -242,11 +242,21 @@ def test_system_info_in_english() -> None:
 
 def test_calibration() -> None:
     calibration = parse_calibration(synthetic("installer-adjustementOffset.html"))
-    assert calibration.outdoor_offset == -0.5
+    assert calibration.outdoor_offset is not None
+    assert calibration.outdoor_offset.value == -0.5
     assert sorted(calibration.rooms) == [0, 1, 2]
-    assert calibration.rooms[0].temperature_offset == 0.3
-    assert calibration.rooms[0].humidity_offset == -2
-    assert calibration.rooms[2].temperature_offset == -1.0
+    assert calibration.rooms[0].temperature_offset.value == 0.3
+    assert calibration.rooms[0].humidity_offset is not None
+    assert calibration.rooms[0].humidity_offset.value == -2
+    assert calibration.rooms[2].temperature_offset.value == -1.0
+
+
+def test_calibration_keeps_device_limits() -> None:
+    calibration = parse_calibration(
+        load_fixture("fw-6.15-de/installer-adjustementOffset.html")
+    )
+    offset = calibration.rooms[0].temperature_offset
+    assert (offset.minimum, offset.maximum, offset.step) == (-5, 5, 0.1)
 
 
 def test_io() -> None:

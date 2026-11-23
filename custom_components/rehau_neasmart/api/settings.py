@@ -22,10 +22,8 @@ SETTINGS_PAGES: dict[InstallerSettingsGroup, str] = {
 }
 
 
-def settings_from_form(
-    group: InstallerSettingsGroup, form: DeviceForm
-) -> InstallerSettings:
-    """Collect the number and checkbox inputs of a settings form."""
+def form_values(form: DeviceForm) -> dict[str, SettingValue]:
+    """Collect the number and checkbox inputs of a form with their limits."""
     fields: dict[str, SettingValue] = {}
     for field in form.fields:
         if field.kind == "checkbox":
@@ -37,7 +35,14 @@ def settings_from_form(
                 maximum=float(field.maximum) if field.maximum is not None else None,
                 step=float(field.step) if field.step is not None else None,
             )
-    return InstallerSettings(group=group, fields=fields)
+    return fields
+
+
+def settings_from_form(
+    group: InstallerSettingsGroup, form: DeviceForm
+) -> InstallerSettings:
+    """Collect the number and checkbox inputs of a settings form."""
+    return InstallerSettings(group=group, fields=form_values(form))
 
 
 def parse_settings(group: InstallerSettingsGroup, html: str) -> InstallerSettings:

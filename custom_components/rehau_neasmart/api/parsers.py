@@ -20,6 +20,7 @@ from .codecs import (
     operating_mode_from_device,
     room_mode_from_device,
 )
+from .forms import parse_form
 from .models import (
     AlarmMessage,
     AlarmSeverity,
@@ -40,6 +41,7 @@ from .models import (
     Uptime,
     WeeklyProgram,
 )
+from .settings import form_values
 
 # The calibration page has at most this many room rows (air00..air19).
 MAX_ZONES = 20
@@ -296,22 +298,23 @@ def parse_weekly_program(html: str) -> WeeklyProgram:
 
 
 def parse_calibration(html: str) -> Calibration:
-    """Parse `/installer-adjustementOffset.html` (installer only)."""
-    soup = _soup(html)
+    """Parse `/installer-adjustementOffset.html` (installer only).
+
+    Rows exist only for configured zones, humidity rows only for rooms with
+    a humidity probe, and the outdoor row only with an outdoor sensor.
+    """
+    values = form_values(parse_form(html, "installer-diagnosis.html"))
     rooms: dict[int, RoomCalibration] = {}
     for zone in range(MAX_ZONES):
-        air = _input_value(soup, f"air{zone:02d}")
-        humidity = _input_value(soup, f"humi{zone:02d}")
-        if air is None and humidity is None:
+        air = values.get(f"air{zone:02d}")
+        if air is None:
             continue
         rooms[zone] = RoomCalibration(
             zone=zone,
-            temperature_offset=_first_number(air) or 0.0,
-            humidity_offset=_first_number(humidity),
+            temperature_offset=air,
+            humidity_offset=values.get(f"humi{zone:02d}"),
         )
-    return Calibration(
-        outdoor_offset=_first_number(_input_value(soup, "out00")), rooms=rooms
-    )
+    return Calibration(outdoor_offset=values.get("out00"), rooms=rooms)
 
 
 # "<N> <word> <N> <word> <N> <word>", where a word is any run of

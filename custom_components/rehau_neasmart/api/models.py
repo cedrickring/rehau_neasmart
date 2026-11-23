@@ -212,12 +212,22 @@ class WeeklyProgram:
 
 
 @dataclass(frozen=True, slots=True)
+class SettingValue:
+    """A number or checkbox input, with the limits the device declares on it."""
+
+    value: float | bool
+    minimum: float | None = None
+    maximum: float | None = None
+    step: float | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class RoomCalibration:
     """Installer probe offsets of one room."""
 
     zone: int
-    temperature_offset: float
-    humidity_offset: float | None
+    temperature_offset: SettingValue
+    humidity_offset: SettingValue | None
     """None when the room has no humidity probe."""
 
 
@@ -225,7 +235,7 @@ class RoomCalibration:
 class Calibration:
     """`/installer-adjustementOffset.html`."""
 
-    outdoor_offset: float | None
+    outdoor_offset: SettingValue | None
     """None when the installation has no outdoor sensor."""
     rooms: dict[int, RoomCalibration]
 
@@ -276,16 +286,6 @@ class IOSnapshot:
 
     master: MasterIO
     umodules: dict[int, UModuleIO]
-
-
-@dataclass(frozen=True, slots=True)
-class SettingValue:
-    """One input of an installer settings page, with the device's own limits."""
-
-    value: float | bool
-    minimum: float | None = None
-    maximum: float | None = None
-    step: float | None = None
 
 
 @dataclass(frozen=True, slots=True)

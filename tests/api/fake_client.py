@@ -58,11 +58,27 @@ def german_device_client() -> FakeClient:
             f"{base}/daily-program-{program}.html",
             str(program),
         )
+    # Only some programs were captured; the others reuse a capture with the
+    # id the device would put in it.
+    empty_daily = load_fixture(f"{base}/daily-program-10.html")
+    for program in range(3, 10):
+        client.pages[f"/user-update-daily-program.html#{program}"] = (
+            empty_daily.replace(
+                'name="idProgDay" type="hidden" value="9"',
+                f'name="idProgDay" type="hidden" value="{program - 1}"',
+            )
+        )
     for program in (1, 5):
         client.serve(
             "/user-update-weekly-program.html",
             f"{base}/weekly-program-{program}.html",
             str(program),
+        )
+    weekly = load_fixture(f"{base}/weekly-program-1.html")
+    for program in (2, 3, 4):
+        client.pages[f"/user-update-weekly-program.html#{program}"] = weekly.replace(
+            'name="weeklyProgram" type="hidden" value="1"',
+            f'name="weeklyProgram" type="hidden" value="{program}"',
         )
     for page in (
         "installer-adjustementOffset",
