@@ -1,5 +1,7 @@
 """Writes through the entities and what they post to the device."""
 
+import asyncio
+
 from homeassistant.components.button import SERVICE_PRESS
 from homeassistant.components.climate import (
     ATTR_HVAC_MODE,
@@ -391,3 +393,105 @@ async def test_house_with_fancoil_humidity_outdoor_and_umodule(
     assert hass.states.get("sensor.u_module_0_analog_input_3").state == "unknown"
     assert hass.states.get("sensor.u_module_0_analog_output").state == "35.0"
     assert hass.states.get("binary_sensor.u_module_0_relay_1").state == "on"
+
+
+async def _start_held_write(
+    hass: HomeAssistant,
+    client: FakeClient,
+    path: str,
+    domain: str,
+    service: str,
+    data: dict,
+) -> tuple[asyncio.Event, asyncio.Task]:
+    release = client.held[path] = asyncio.Event()
+    task = asyncio.create_task(
+        hass.services.async_call(domain, service, data, blocking=True)
+    )
+    await asyncio.wait_for(client.entered.wait(), 1)
+    # The service call is still running, so only let queued callbacks run.
+    for _ in range(5):
+        await asyncio.sleep(0)
+    return release, task
+
+
+async def test_switch_shows_new_state_before_the_device_answers(
+    hass: HomeAssistant, loaded_entry: MockConfigEntry, mock_client: FakeClient
+) -> None:
+    entity = f"switch.{PREFIX}_office_light"
+    assert hass.states.get(entity).state == "off"
+    release, task = await _start_held_write(
+        hass,
+        mock_client,
+        "/room-page.html",
+        "switch",
+        SERVICE_TURN_ON,
+        {ATTR_ENTITY_ID: entity},
+    )
+    assert hass.states.get(entity).state == "on"
+    release.set()
+    await task
+
+
+async def test_failed_write_reverts_the_shown_state(
+    hass: HomeAssistant, loaded_entry: MockConfigEntry, mock_client: FakeClient
+) -> None:
+    entity = f"switch.{PREFIX}_hallway_display_lock"
+    mock_client.fail_paths.add("/room-page.html")
+    with pytest.raises(HomeAssistantError):
+        await call(hass, "switch", SERVICE_TURN_ON, {ATTR_ENTITY_ID: entity})
+    assert hass.states.get(entity).state == "off"
+
+
+async def test_poll_during_a_write_does_not_flip_the_state_back(
+    hass: HomeAssistant, loaded_entry: MockConfigEntry, mock_client: FakeClient
+) -> None:
+    coordinator = loaded_entry.runtime_data.coordinator
+    release, task = await _start_held_write(
+        hass,
+        mock_client,
+        "/room-page.html",
+        "climate",
+        SERVICE_SET_PRESET_MODE,
+        {ATTR_ENTITY_ID: BATHROOM, ATTR_PRESET_MODE: "reduced"},
+    )
+    assert hass.states.get(BATHROOM).attributes["preset_mode"] == "reduced"
+    assert hass.states.get(BATHROOM).attributes["temperature"] == 19.0
+    # A poll that read the room before the write landed still says "normal".
+    await coordinator.refresh_room(0, poll=True)
+    coordinator.async_update_listeners()
+    assert hass.states.get(BATHROOM).attributes["preset_mode"] == "reduced"
+    release.set()
+    await task
+
+
+async def test_setpoint_is_shown_in_the_active_slot(
+    hass: HomeAssistant, loaded_entry: MockConfigEntry, mock_client: FakeClient
+) -> None:
+    release, task = await _start_held_write(
+        hass,
+        mock_client,
+        "/room-page.html",
+        "climate",
+        SERVICE_SET_TEMPERATURE,
+        {ATTR_ENTITY_ID: BATHROOM, ATTR_TEMPERATURE: 24},
+    )
+    assert hass.states.get(BATHROOM).attributes["temperature"] == 24
+    release.set()
+    await task
+
+
+async def test_operating_mode_is_shown_before_the_device_answers(
+    hass: HomeAssistant, loaded_entry: MockConfigEntry, mock_client: FakeClient
+) -> None:
+    entity = f"select.{PREFIX}_operating_mode"
+    release, task = await _start_held_write(
+        hass,
+        mock_client,
+        "/user-menu.html",
+        "select",
+        SERVICE_SELECT_OPTION,
+        {ATTR_ENTITY_ID: entity, ATTR_OPTION: "heating_only"},
+    )
+    assert hass.states.get(entity).state == "heating_only"
+    release.set()
+    await task

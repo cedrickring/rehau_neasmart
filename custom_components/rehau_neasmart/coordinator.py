@@ -14,17 +14,24 @@ RehauClient and the polling cadence follows rehau-bridge (core/poller.ts):
 Each fetched piece lands in the shared state as soon as it arrives. Since
 the client runs requests strictly in order, the latest arrival is always
 the latest reading, including the re-read after a write.
+
+Writes are optimistic, as in rehau-bridge: the expected state is shown at
+once, then the device is written and re-read. Losing one packet on the
+Wi-Fi link costs about 2 s (the base station's retransmission timeout), so
+waiting for the device made switches feel laggy. While a write is pending,
+polls drop their results for the same room, set-up or dashboard, so a read
+that was already in flight cannot flip the state back.
 """
 
 from __future__ import annotations
 
 import asyncio
-from collections import deque
+from collections import Counter, deque
 from collections.abc import Awaitable, Callable
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import timedelta
 import time
-from typing import TYPE_CHECKING, override
+from typing import TYPE_CHECKING, Any, override
 
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import (
@@ -75,10 +82,30 @@ if TYPE_CHECKING:
     from . import RehauConfigEntry
 
 
+# Pending-write key of the dashboard (operating mode, energy level).
+DASHBOARD_KEY = ("dashboard", 0)
+
+
 def room_cycle(rooms: int) -> timedelta:
     """Return the tick length for this many rooms."""
     seconds = timedelta(seconds=ROOM_SECONDS_PER_ZONE * max(1, rooms))
     return min(ROOM_CYCLE_MAX, max(ROOM_CYCLE_MIN, seconds))
+
+
+def setpoint_changes(room: RoomDetail, value: float) -> dict[str, float]:
+    """Return the slot a setpoint write lands in, mirroring `active_setpoint`.
+
+    In standby the device ignores the setpoint, so nothing changes.
+    """
+    match room.mode:
+        case RoomMode.STANDBY:
+            return {}
+        case RoomMode.REDUCED:
+            return {"setpoint_reduced": value}
+        case RoomMode.PROGRAM | RoomMode.PROGRAM_OVERRIDE if room.program_active == 1:
+            return {"setpoint_reduced": value}
+        case _:
+            return {"setpoint_normal": value}
 
 
 def setpoint_for_mode(room: RoomDetail, mode: RoomMode) -> float | None:
@@ -147,6 +174,7 @@ class RehauCoordinator(DataUpdateCoordinator[RehauState]):
         self._last_success: dict[str, float] = {}
         self._errors: list[str] = []
         self._booted = False
+        self._pending: Counter[tuple[str, int]] = Counter()
 
     @property
     def state(self) -> RehauState:
@@ -197,7 +225,9 @@ class RehauCoordinator(DataUpdateCoordinator[RehauState]):
         ok = 0
 
         if self._due("dashboard", DASHBOARD_INTERVAL):
-            ok += await self._step("dashboard", self.refresh_dashboard)
+            ok += await self._step(
+                "dashboard", lambda: self.refresh_dashboard(poll=True)
+            )
         if self._due("room_list", ROOM_LIST_INTERVAL):
             ok += await self._step("room_list", self._refresh_room_list)
             if not self._booted and not state.room_names:
@@ -205,7 +235,9 @@ class RehauCoordinator(DataUpdateCoordinator[RehauState]):
                 await asyncio.sleep(ROOM_LIST_RETRY_DELAY)
                 ok += await self._step("room_list", self._refresh_room_list)
         for zone in list(state.room_names):
-            ok += await self._step(f"room_{zone}", lambda z=zone: self.refresh_room(z))
+            ok += await self._step(
+                f"room_{zone}", lambda z=zone: self.refresh_room(z, poll=True)
+            )
         if self._due("system_info", SYSTEM_INFO_INTERVAL):
             ok += await self._step("system_info", self._refresh_system_info)
         if self._due("messages", MESSAGES_INTERVAL):
@@ -231,7 +263,7 @@ class RehauCoordinator(DataUpdateCoordinator[RehauState]):
         ok = 0
         for zone in list(state.room_names):
             ok += await self._step(
-                f"setup_{zone}", lambda z=zone: self.refresh_setup(z)
+                f"setup_{zone}", lambda z=zone: self.refresh_setup(z, poll=True)
             )
         for program in range(1, DAILY_PROGRAMS + 1):
             ok += await self._step(
@@ -255,9 +287,11 @@ class RehauCoordinator(DataUpdateCoordinator[RehauState]):
 
     # ─── single-page refreshes ───────────────────────────────────
 
-    async def refresh_dashboard(self) -> None:
+    async def refresh_dashboard(self, *, poll: bool = False) -> None:
         """Re-read outdoor temperature, operating mode and energy level."""
-        self.state.dashboard = await self.device.fetch_dashboard()
+        dashboard = await self.device.fetch_dashboard()
+        if not (poll and self._pending[DASHBOARD_KEY]):
+            self.state.dashboard = dashboard
 
     async def _refresh_room_list(self) -> None:
         rooms = await self.device.fetch_room_list()
@@ -267,13 +301,17 @@ class RehauCoordinator(DataUpdateCoordinator[RehauState]):
             del state.rooms[zone]
             state.setups.pop(zone, None)
 
-    async def refresh_room(self, zone: int) -> None:
+    async def refresh_room(self, zone: int, *, poll: bool = False) -> None:
         """Re-read one room's detail page."""
-        self.state.rooms[zone] = await self.device.fetch_room(zone)
+        room = await self.device.fetch_room(zone)
+        if not (poll and self._pending[("room", zone)]):
+            self.state.rooms[zone] = room
 
-    async def refresh_setup(self, zone: int) -> None:
+    async def refresh_setup(self, zone: int, *, poll: bool = False) -> None:
         """Re-read one room's set-up form."""
-        self.state.setups[zone] = await self.device.fetch_room_setup(zone)
+        setup = await self.device.fetch_room_setup(zone)
+        if not (poll and self._pending[("setup", zone)]):
+            self.state.setups[zone] = setup
 
     async def _refresh_system_info(self) -> None:
         self.state.system = await self.device.fetch_system_info()
@@ -310,35 +348,85 @@ class RehauCoordinator(DataUpdateCoordinator[RehauState]):
 
     # ─── writes ──────────────────────────────────────────────────
 
+    def _patch_room(self, zone: int, **changes: Any) -> Callable[[], None]:
+        rooms = self.state.rooms
+        old = rooms[zone]
+        new = rooms[zone] = replace(old, **changes)
+
+        def revert() -> None:
+            if rooms.get(zone) is new:
+                rooms[zone] = old
+
+        return revert
+
+    def _patch_setup(self, zone: int, **changes: Any) -> Callable[[], None]:
+        setups = self.state.setups
+        if (old := setups.get(zone)) is None:
+            return lambda: None
+        new = setups[zone] = replace(old, **changes)
+
+        def revert() -> None:
+            if setups.get(zone) is new:
+                setups[zone] = old
+
+        return revert
+
+    def _patch_dashboard(self, **changes: Any) -> Callable[[], None]:
+        state = self.state
+        if (old := state.dashboard) is None:
+            return lambda: None
+        new = state.dashboard = replace(old, **changes)
+
+        def revert() -> None:
+            if state.dashboard is new:
+                state.dashboard = old
+
+        return revert
+
     async def _write(
         self,
         write: Callable[[], Awaitable[None]],
         *refreshes: Callable[[], Awaitable[None]],
+        pending: tuple[str, int] | None = None,
+        patch: Callable[[], Callable[[], None]] | None = None,
     ) -> None:
-        """Write, re-read what changed, and push the result to the entities.
+        """Show the expected state, write, re-read what changed.
 
-        A failed re-read after a successful write is left to the next poll.
+        `patch` applies the expected state and returns how to undo it; it is
+        undone when the device refuses the write. A failed re-read after a
+        successful write is left to the next poll.
         """
+        if pending is not None:
+            self._pending[pending] += 1
         try:
-            await write()
-        except RehauError as err:
-            raise HomeAssistantError(
-                translation_domain=DOMAIN,
-                translation_key="write_failed",
-                translation_placeholders={"error": str(err)},
-            ) from err
-        except ValueError as err:
-            raise ServiceValidationError(
-                translation_domain=DOMAIN,
-                translation_key="write_rejected",
-                translation_placeholders={"error": str(err)},
-            ) from err
-        for refresh in refreshes:
+            revert = patch() if patch is not None else None
+            if revert is not None:
+                self.async_update_listeners()
             try:
-                await refresh()
-            except RehauError as err:
-                LOGGER.debug("Re-read after write failed: %s", err)
-        self.async_update_listeners()
+                await write()
+            except (RehauError, ValueError) as err:
+                if revert is not None:
+                    revert()
+                if isinstance(err, ValueError):
+                    raise ServiceValidationError(
+                        translation_domain=DOMAIN,
+                        translation_key="write_rejected",
+                        translation_placeholders={"error": str(err)},
+                    ) from err
+                raise HomeAssistantError(
+                    translation_domain=DOMAIN,
+                    translation_key="write_failed",
+                    translation_placeholders={"error": str(err)},
+                ) from err
+            for refresh in refreshes:
+                try:
+                    await refresh()
+                except RehauError as err:
+                    LOGGER.debug("Re-read after write failed: %s", err)
+        finally:
+            if pending is not None:
+                self._pending[pending] -= 1
+            self.async_update_listeners()
 
     def room(self, zone: int) -> RoomDetail:
         """Return a room's last reading, or raise if it was never read."""
@@ -359,6 +447,8 @@ class RehauCoordinator(DataUpdateCoordinator[RehauState]):
                 zone, room.name, mode=room.mode, setpoint=value, light=room.light
             ),
             lambda: self.refresh_room(zone),
+            pending=("room", zone),
+            patch=lambda: self._patch_room(zone, **setpoint_changes(room, value)),
         )
 
     async def async_set_room_mode(self, zone: int, mode: RoomMode) -> None:
@@ -374,6 +464,8 @@ class RehauCoordinator(DataUpdateCoordinator[RehauState]):
                 zone, room.name, mode=mode, setpoint=setpoint, light=room.light
             ),
             lambda: self.refresh_room(zone),
+            pending=("room", zone),
+            patch=lambda: self._patch_room(zone, mode=mode),
         )
 
     async def async_set_room_light(self, zone: int, light: bool) -> None:
@@ -389,6 +481,8 @@ class RehauCoordinator(DataUpdateCoordinator[RehauState]):
                 zone, room.name, mode=room.mode, setpoint=setpoint, light=light
             ),
             lambda: self.refresh_room(zone),
+            pending=("room", zone),
+            patch=lambda: self._patch_room(zone, light=light),
         )
 
     async def async_set_room_flags(
@@ -409,18 +503,37 @@ class RehauCoordinator(DataUpdateCoordinator[RehauState]):
                 window_detection=window_detection,
             ),
             lambda: self.refresh_setup(zone),
+            pending=("setup", zone),
+            patch=lambda: self._patch_setup(
+                zone,
+                **{
+                    key: value
+                    for key, value in (
+                        ("lock", lock),
+                        ("auto_start", auto_start),
+                        ("window_detection", window_detection),
+                    )
+                    if value is not None
+                },
+            ),
         )
 
     async def async_set_operating_mode(self, mode: OperatingMode) -> None:
         """Set the system operating mode."""
         await self._write(
-            lambda: self.device.set_operating_mode(mode), self.refresh_dashboard
+            lambda: self.device.set_operating_mode(mode),
+            self.refresh_dashboard,
+            pending=DASHBOARD_KEY,
+            patch=lambda: self._patch_dashboard(operating_mode=mode),
         )
 
     async def async_set_energy_level(self, level: EnergyLevel) -> None:
         """Set the system energy level."""
         await self._write(
-            lambda: self.device.set_energy_level(level), self.refresh_dashboard
+            lambda: self.device.set_energy_level(level),
+            self.refresh_dashboard,
+            pending=DASHBOARD_KEY,
+            patch=lambda: self._patch_dashboard(energy_level=level),
         )
 
     async def async_clear_messages(self) -> None:

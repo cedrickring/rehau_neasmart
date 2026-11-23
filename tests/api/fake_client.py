@@ -1,5 +1,6 @@
 """In-memory stand-in for RehauClient that serves fixture pages."""
 
+import asyncio
 from dataclasses import dataclass, field
 
 from pytest_homeassistant.common import load_fixture
@@ -16,6 +17,10 @@ class FakeClient:
         default_factory=list
     )
     fail_paths: set[str] = field(default_factory=set)
+    held: dict[str, asyncio.Event] = field(default_factory=dict)
+    """POSTs to these paths wait until the event is set."""
+    entered: asyncio.Event = field(default_factory=asyncio.Event)
+    """Set when a held POST starts waiting."""
 
     def serve(self, path: str, fixture: str, key: str | None = None) -> None:
         self.pages[f"{path}#{key}" if key is not None else path] = load_fixture(fixture)
@@ -32,6 +37,9 @@ class FakeClient:
 
     async def post_form(self, path: str, form: dict[str, str]) -> str:
         self.calls.append(("POST", path, dict(form)))
+        if (release := self.held.get(path)) is not None:
+            self.entered.set()
+            await release.wait()
         return self._page(path)
 
     async def post_key(self, path: str, key: str) -> str:

@@ -98,6 +98,12 @@ The base station is one device, and each room is a child device of it.
 
 ## Known issues and gotchas
 
+- **A lost packet costs about 2 s.** The base station retransmits a lost TCP
+  segment only after ~2 s. On a Wi-Fi link with 2–5 % loss (measured: −66 dBm
+  via a USB dongle) that hits several percent of requests. Writes are shown
+  in Home Assistant at once and confirmed in the background, so this
+  shows up as slower confirmation, not as a lagging switch. A better signal
+  helps more than any setting.
 - **One client only.** Running rehau-bridge (or a browser left polling the web
   interface) next to this integration causes timeouts on both.
 - **Which fields a form has depends on the installation.** A heating-only system
