@@ -1,0 +1,4 @@
+The device protocol knowledge in custom_components/rehau_neasmart/api/ (endpoints,
+form fields, codecs, parsing rules, request pacing) and the HTML fixtures under
+tests/fixtures/fw-6.15/ are ported from rehau-bridge by manuxio:
+https://github.com/manuxio/rehau-nea-smart-2-home-assistant (MIT, per its README).
