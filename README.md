@@ -4,9 +4,12 @@ A Home Assistant integration that controls a REHAU Nea Smart 2.0 base station
 over its **local web interface**. There's no cloud, no account and no add-on:
 Home Assistant talks to the base station directly.
 
-It replaces [rehau-bridge](https://github.com/manuxio/rehau-nea-smart-2-home-assistant)
-(a Node.js add-on publishing over MQTT) with a native integration that offers the
-same features. The device protocol is ported from that project, see [NOTICE](NOTICE).
+This integration originated from
+[rehau-bridge](https://github.com/manuxio/rehau-nea-smart-2-home-assistant) by
+manuxio, a Node.js add-on that publishes the base station over MQTT. It ports
+rehau-bridge's device protocol to a native integration with the same features
+and replaces it. rehau-bridge is MIT licensed according to its README; see
+[NOTICE](NOTICE).
 
 ## Requirements
 
