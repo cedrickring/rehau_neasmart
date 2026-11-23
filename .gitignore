@@ -53,3 +53,8 @@ home-assistant_v2.db
 *.tmp
 *.bak
 *.log
+
+# Tests
+.coverage
+.pytest_cache/
+.ruff_cache/
