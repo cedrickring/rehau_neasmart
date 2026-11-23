@@ -1,3 +1,5 @@
+<img src="custom_components/rehau_neasmart/brand/icon.png" alt="" width="96" align="right">
+
 # REHAU Nea Smart 2.0 for Home Assistant
 
 A Home Assistant integration that controls a REHAU Nea Smart 2.0 base station
@@ -135,6 +137,11 @@ uv pip install -p .venv --group dev -r pyproject.toml
 .venv/bin/ruff check custom_components tests
 .venv/bin/pytest --cov
 ```
+
+The icon's source is `docs/icon.svg`. Home Assistant shows the PNGs in
+`custom_components/rehau_neasmart/brand/`; regenerate them with
+`rsvg-convert -w 256 docs/icon.svg -o custom_components/rehau_neasmart/brand/icon.png`
+and `-w 512` for `icon@2x.png`. It is not REHAU's logo.
 
 `custom_components/rehau_neasmart/api/` has no Home Assistant imports and can be
 extracted into a library. Tests never touch the network: device pages come from

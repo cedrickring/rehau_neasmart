@@ -7,6 +7,7 @@ from homeassistant.config_entries import ConfigEntryState
 from homeassistant.const import STATE_UNAVAILABLE
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr
+from homeassistant.loader import async_get_integration
 from pytest_homeassistant.common import MockConfigEntry, async_fire_time_changed
 
 from custom_components.rehau_neasmart.const import DOMAIN
@@ -237,3 +238,13 @@ async def test_room_added_on_the_device_gets_entities(
     async_fire_time_changed(hass)
     await hass.async_block_till_done()
     assert hass.states.get("climate.rehau_nea_smart_2_0_guest") is not None
+
+
+async def test_integration_ships_its_brand_icon(hass: HomeAssistant) -> None:
+    """Home Assistant shows the icon from the integration's brand folder."""
+    integration = await async_get_integration(hass, DOMAIN)
+
+    assert integration.has_branding
+    brand = integration.file_path / "brand"
+    assert (brand / "icon.png").read_bytes()[:8] == b"\x89PNG\r\n\x1a\n"
+    assert (brand / "icon@2x.png").is_file()

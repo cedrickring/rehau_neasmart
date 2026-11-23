@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="pipe" gradientUnits="userSpaceOnUse" x1="0" y1="476" x2="0" y2="276">
+      <stop offset="0" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#F97316"/>
+    </linearGradient>
+    <linearGradient id="heat" gradientUnits="userSpaceOnUse" x1="0" y1="236" x2="0" y2="20">
+      <stop offset="0" stop-color="#F97316"/>
+      <stop offset="1" stop-color="#DC2626"/>
+    </linearGradient>
+  </defs>
+  <path d="M 28 456 H 396 A 40 40 0 0 0 396 376 H 116 A 40 40 0 0 1 116 296 H 484"
+        fill="none" stroke="url(#pipe)" stroke-width="40" stroke-linecap="round" stroke-linejoin="round"/>
+  <g fill="none" stroke="url(#heat)" stroke-width="36" stroke-linecap="round">
+    <path d="M 160 228 C 120 196 200 160 160 132 S 200 68 160 40"/>
+    <path d="M 256 228 C 216 196 296 160 256 132 S 296 68 256 40"/>
+    <path d="M 352 228 C 312 196 392 160 352 132 S 392 68 352 40"/>
+  </g>
+</svg>
