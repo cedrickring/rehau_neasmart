@@ -69,9 +69,12 @@ class Dashboard:
     """The resident dashboard at `/`."""
 
     outdoor_temperature: float | None
+    """None when the installation has no outdoor sensor."""
     clock: str
     operating_mode: OperatingMode
     energy_level: EnergyLevel
+    operating_modes: tuple[OperatingMode, ...]
+    """The modes the device offers; heating-only systems offer two."""
 
 
 @dataclass(frozen=True, slots=True)
@@ -125,15 +128,18 @@ class RoomDetail:
 
 @dataclass(frozen=True, slots=True)
 class RoomSetpoints:
-    """Setpoint slots on `/room-set-up.html`, all in °C."""
+    """Setpoint slots on `/room-set-up.html`, all in °C.
 
-    normal_heating: float
-    reduced_heating: float
-    standby: float
-    normal_cooling: float
-    reduced_cooling: float
-    max_heating: float
-    min_cooling: float
+    Heating-only installations have no cooling slots (None).
+    """
+
+    normal_heating: float | None
+    reduced_heating: float | None
+    standby: float | None
+    normal_cooling: float | None
+    reduced_cooling: float | None
+    max_heating: float | None
+    min_cooling: float | None
 
 
 @dataclass(frozen=True, slots=True)
@@ -211,14 +217,16 @@ class RoomCalibration:
 
     zone: int
     temperature_offset: float
-    humidity_offset: float
+    humidity_offset: float | None
+    """None when the room has no humidity probe."""
 
 
 @dataclass(frozen=True, slots=True)
 class Calibration:
     """`/installer-adjustementOffset.html`."""
 
-    outdoor_offset: float
+    outdoor_offset: float | None
+    """None when the installation has no outdoor sensor."""
     rooms: dict[int, RoomCalibration]
 
 
@@ -241,21 +249,6 @@ class Topology:
     rooms: int
     mixed_circuits: int
     dehumidifiers: int
-
-
-@dataclass(frozen=True, slots=True)
-class HeatCurve:
-    """Heating curve fields from `/circSett.html`."""
-
-    slope_normal: float
-    slope_absent: float
-    start_normal: float
-    start_absent: float
-    reduction_k: float
-    min_flow_normal: float
-    min_flow_absent: float
-    max_flow_normal: float
-    max_flow_absent: float
 
 
 @dataclass(frozen=True, slots=True)
@@ -286,8 +279,21 @@ class IOSnapshot:
 
 
 @dataclass(frozen=True, slots=True)
+class SettingValue:
+    """One input of an installer settings page, with the device's own limits."""
+
+    value: float | bool
+    minimum: float | None = None
+    maximum: float | None = None
+    step: float | None = None
+
+
+@dataclass(frozen=True, slots=True)
 class InstallerSettings:
-    """All fields of one installer settings page, keyed by input name."""
+    """Every number and checkbox input of one installer settings page.
+
+    Which inputs exist depends on the installation (circuits, modules).
+    """
 
     group: InstallerSettingsGroup
-    values: dict[str, float | bool]
+    fields: dict[str, SettingValue]

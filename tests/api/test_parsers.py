@@ -19,7 +19,6 @@ from custom_components.rehau_neasmart.api.parsers import (
     parse_calibration,
     parse_daily_program,
     parse_dashboard,
-    parse_heat_curve,
     parse_io,
     parse_messages,
     parse_room_detail,
@@ -275,10 +274,3 @@ def test_topology() -> None:
     assert topology.u_modules == 1
     assert topology.rooms == 5
     assert topology.mixed_circuits == 1
-
-
-def test_heat_curve() -> None:
-    curve = parse_heat_curve(synthetic("circSett.html"))
-    assert curve.slope_normal == 0.6
-    assert curve.start_normal == 20
-    assert curve.max_flow_absent == 35

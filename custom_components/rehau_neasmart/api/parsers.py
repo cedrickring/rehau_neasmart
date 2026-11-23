@@ -27,7 +27,6 @@ from .models import (
     DailyProgram,
     Dashboard,
     FirmwareInfo,
-    HeatCurve,
     IOSnapshot,
     MasterIO,
     RoomCalibration,
@@ -100,7 +99,8 @@ def parse_dashboard(html: str) -> Dashboard:
 
     The single `h3.textCenter` carries the outdoor temperature behind a
     localized prefix ("Temp. esterna. 16.6", "Ext. temperature 16.6");
-    only the number is taken.
+    only the number is taken. Installations without an outdoor sensor
+    have no such heading.
     """
     soup = _soup(html)
     operating = (
@@ -113,11 +113,17 @@ def parse_dashboard(html: str) -> Dashboard:
     )
     outdoor = soup.select_one("h3.textCenter")
     clock = soup.select_one("h2.textCenter")
+    offered = [
+        operating_mode_from_device(int(value))
+        for option in soup.select("#opMode option")
+        if isinstance(value := option.get("value"), str) and value.isdigit()
+    ]
     return Dashboard(
         outdoor_temperature=_first_number(outdoor.get_text() if outdoor else None),
         clock=clock.get_text().strip() if clock else "",
         operating_mode=operating_mode_from_device(int(operating)),
         energy_level=energy_level_from_device(int(energy)),
+        operating_modes=tuple(dict.fromkeys(offered)),
     )
 
 
@@ -192,9 +198,8 @@ def parse_room_setup(html: str) -> RoomSetup:
     """Parse the all-or-nothing form on `/room-set-up.html`."""
     soup = _soup(html)
 
-    def number(element_id: str) -> float:
-        value = _first_number(_attr(soup, f"#{element_id}"))
-        return 0 if value is None else value
+    def number(element_id: str) -> float | None:
+        return _first_number(_attr(soup, f"#{element_id}"))
 
     def day_program(day: int) -> int:
         selected = _selected_option(soup, f"PDay0{day}")
@@ -302,9 +307,11 @@ def parse_calibration(html: str) -> Calibration:
         rooms[zone] = RoomCalibration(
             zone=zone,
             temperature_offset=_first_number(air) or 0.0,
-            humidity_offset=_first_number(humidity) or 0.0,
+            humidity_offset=_first_number(humidity),
         )
-    return Calibration(outdoor_offset=_input_number(soup, "out00"), rooms=rooms)
+    return Calibration(
+        outdoor_offset=_first_number(_input_value(soup, "out00")), rooms=rooms
+    )
 
 
 # "<N> <word> <N> <word> <N> <word>", where a word is any run of
@@ -335,22 +342,6 @@ def parse_topology(html: str) -> Topology:
         rooms=count("room"),
         mixed_circuits=count("mc"),
         dehumidifiers=count("dehu"),
-    )
-
-
-def parse_heat_curve(html: str) -> HeatCurve:
-    """Parse the heating curve on `/circSett.html`."""
-    soup = _soup(html)
-    return HeatCurve(
-        slope_normal=_input_number(soup, "HC00"),
-        slope_absent=_input_number(soup, "HD00"),
-        start_normal=_input_number(soup, "HA00"),
-        start_absent=_input_number(soup, "HB00"),
-        reduction_k=_input_number(soup, "HR0"),
-        min_flow_normal=_input_number(soup, "HF00"),
-        min_flow_absent=_input_number(soup, "HG00"),
-        max_flow_normal=_input_number(soup, "HI00"),
-        max_flow_absent=_input_number(soup, "HK00"),
     )
 
 
@@ -445,7 +436,7 @@ def parse_io(html: str) -> IOSnapshot:
     )
 
 
-_UNIQUE_CODE = re.compile(r"Unique code\s*:\s*([0-9a-f]+)", re.IGNORECASE)
+_UNIQUE_CODE = re.compile(r"Unique code\s*:\s*([0-9a-f]+)\b", re.IGNORECASE)
 _MASTER_VERSION = re.compile(r"Master:\s*([\d.]+)")
 _UMODULE_VERSION = re.compile(r"\b(\d+)\D*:\s*([\d.\s]+?)\s*$")
 _WEB_VERSION = re.compile(r"(\d+\.\d+(?:\.\d+)?)\s*$")
@@ -461,7 +452,9 @@ def parse_system_info(html: str) -> SystemInfo:
     is U-module N; a lone trailing "X.Y" is the web pages version.
     """
     soup = _soup(html)
-    text = soup.get_text()
+    # Separate element texts: the code's label is directly followed by
+    # another label ("6W"), and gluing them would extend the hex run.
+    text = soup.get_text(" ")
     unique_code = _UNIQUE_CODE.search(text)
     master = _MASTER_VERSION.search(text)
     umodules: dict[int, str] = {}
