@@ -15,6 +15,9 @@ and replaces it. rehau-bridge is MIT licensed according to its README; see
 
 ## Requirements
 
+New to this? [docs/SETUP.md](docs/SETUP.md) walks through AP mode, the Wi-Fi
+dongle, the installer code and the integration step by step.
+
 - Home Assistant 2026.11 or newer.
 - Network access from Home Assistant to the base station's web interface. A base
   station in access-point mode is usually at `http://192.168.0.2`, so the Home
