@@ -36,9 +36,6 @@ from .const import (
 )
 from .helpers import entry_unique_id
 
-# The installer field on the device's own login form has maxlength="8".
-INSTALLER_CODE_MAX_LENGTH = 8
-
 TITLE = "REHAU Nea Smart 2.0"
 
 
@@ -64,9 +61,6 @@ async def _validate(
     The installer code cannot be checked: the device answers the login the
     same way whether the code is right or wrong.
     """
-    code = (user_input.get(CONF_INSTALLER_CODE) or "").strip()
-    if len(code) > INSTALLER_CODE_MAX_LENGTH:
-        return None, {CONF_INSTALLER_CODE: "installer_code_too_long"}
     client = RehauClient(
         async_get_clientsession(flow.hass), user_input[CONF_HOST].strip()
     )

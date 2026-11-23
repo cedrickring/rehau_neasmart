@@ -7,7 +7,6 @@
     },
     "error": {
       "cannot_connect": "The base station did not answer. Check the address and that Home Assistant can reach the network the base station is on.",
-      "installer_code_too_long": "The installer code has at most 8 characters.",
       "invalid_device": "The address answered, but not like a REHAU Nea Smart 2.0 base station.",
       "no_rooms": "The base station shows no rooms. Set up the rooms on the base station first.",
       "unknown": "Unexpected error. See the logs for details."

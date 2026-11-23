@@ -119,15 +119,18 @@ async def test_user_flow_no_rooms(hass: HomeAssistant, mock_client: FakeClient) 
     assert result["errors"] == {"base": "no_rooms"}
 
 
-async def test_user_flow_installer_code_too_long(
-    hass: HomeAssistant, mock_client: FakeClient
+async def test_installer_code_longer_than_the_login_field_is_kept(
+    hass: HomeAssistant,
 ) -> None:
+    # The device's login input says maxlength="8", but real codes are longer
+    # and the device accepts them when posted in full.
     flow_id = await start(hass)
-    result = await hass.config_entries.flow.async_configure(
-        flow_id, {CONF_HOST: HOST, CONF_INSTALLER_CODE: "123456789"}
-    )
-    assert result["errors"] == {CONF_INSTALLER_CODE: "installer_code_too_long"}
-    assert mock_client.calls == []
+    with patch("custom_components.rehau_neasmart.async_setup_entry", return_value=True):
+        result = await hass.config_entries.flow.async_configure(
+            flow_id, {CONF_HOST: HOST, CONF_INSTALLER_CODE: "0123456789"}
+        )
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["data"][CONF_INSTALLER_CODE] == "0123456789"
 
 
 async def test_already_configured_updates_host(

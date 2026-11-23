@@ -109,6 +109,9 @@ The base station is one device, and each room is a child device of it.
   I/O page looked the same with installer mode off. The integration still holds
   installer mode, as the bridge did, because that hasn't been checked for every
   page and firmware.
+- **The installer code can be longer than the login field allows.** The
+  device's own login input has `maxlength="8"`, but codes are longer (10
+  characters on the unit tested) and are posted in full.
 - **The unique code is not the installer code** on that unit, although the
   bridge documents the code as the unique code's first eight characters. The
   integration only uses the last 12 hex digits of the unique code as its ID.
